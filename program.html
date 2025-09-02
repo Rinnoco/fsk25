@@ -11,6 +11,115 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
     <link rel="stylesheet" href="assets/css/main.css"/>
+    <style>
+        /* ===== Program styles (namespaced) ===== */
+        .program { --fg:#222; --muted:#666; --ring:#e5e7eb; --chip:#f5f7fb; --accent:#2745ff; --bg:#fff; }
+        .program * { box-sizing: border-box; }
+        .program .topbar { display:flex; align-items:center; justify-content:space-between; gap:.75rem; flex-wrap:wrap; }
+        .program .title { margin:0; font-size:1.6rem; }
+        .program .subtitle { color:var(--muted); margin:.25rem 0 0; }
+        .program .tabs { display:flex; gap:.5rem; flex-wrap:wrap; margin:1rem 0; }
+        .program .tab { border:1px solid var(--ring); background:#fff; color:#222; padding:.5rem .9rem; border-radius:999px; cursor:pointer; font:inherit; }
+        .program .tab[aria-selected="true"] { background:cornsilk; color:#fff; border-color:transparent; }
+        .program .legend { display:flex; flex-wrap:wrap; gap:.5rem; margin:.5rem 0 1rem; }
+        .program .chip { display:inline-flex; gap:.5rem; align-items:center; background:var(--chip); border:1px solid var(--ring); padding:.35rem .6rem; border-radius:999px; font-size:.9rem; color:#333; }
+        .program .dot { width:.65rem; height:.65rem; border-radius:50%; display:inline-block; }
+        .program .day { display:none; }
+        .program .day.active { display:block; }
+        .program h3 { margin:1.2rem 0 .6rem; font-size:1.25rem; color:#111; }
+        .program .grid { display:grid; grid-template-columns:minmax(100px,110px) 1fr; gap:.6rem .8rem; }
+        .program .item { background:#fff; border:1px solid var(--ring); border-radius:12px; padding:.5rem .9rem; }
+        .program .time { color:#444; font-weight:600; padding-top:.8rem; }
+        .program .title-sm { margin:.1rem 0; font-weight:700; }
+        .program .track { display:inline-flex; align-items:center; gap:.4rem; margin-top:.25rem; font-size:.8rem; }
+        .program .badge { display:inline-flex; align-items:center; gap:.35rem; padding:.15rem .45rem; border-radius:999px; border:1px dashed var(--ring); background:#fafafa; }
+        .program .note { color:var(--muted); font-size:.95rem; margin-top:1rem; }
+        /* Track colors */
+        .program .AFM { --c:#2ca36b; } .program .ME { --c:#d08b00; } .program .MN { --c:#bb6b00; }
+        .program .SM { --c:#0b84a5; } .program .PHOT { --c:#6f42c1; } .program .LDM { --c:#0086d1; } .program .MAG { --c:#c03a5b; }
+
+        /* === Special session types === */
+        .program .BREAK   { --c:#9aa5b1; background:linear-gradient(0deg,#fafafa,#fff); }
+        .program .KEYNOTE { --c:#0b7; }
+        .program .PLENARY { --c:#1061ff; }
+        .program .INVITED { --c:#8a2be2; }
+        .program .SPONSOR { --c:#d97706; }
+        .program .POSTER  { --c:#16a34a; }
+        .program .CEREMONY{ --c:#ef4444; }
+        .program .SOCIAL  { --c:#0ea5e9; }
+        .program .REG     { --c:#64748b; }
+
+
+        .program .BREAK .dot,
+        .program .KEYNOTE .dot,
+        .program .PLENARY .dot,
+        .program .INVITED .dot,
+        .program .SPONSOR .dot,
+        .program .POSTER .dot,
+        .program .CEREMONY .dot,
+        .program .SOCIAL .dot,
+        .program .REG .dot, .program .AFM .dot, .program .ME .dot, .program .MN .dot, .program .SM .dot,
+        .program .PHOT .dot, .program .LDM .dot, .program .MAG .dot { background:var(--c); }
+
+
+
+        @media print {
+            .program .tabs, .program .legend { display:none !important; }
+            .program .day { display:block !important; }
+            .program .grid .item { break-inside: avoid; page-break-inside: avoid; }
+        }
+
+        .program .item.emph {
+            border:1px solid color-mix(in oklab, var(--c) 45%, #e5e7eb);
+            box-shadow: 0 1px 0 rgba(0,0,0,.04), 0 0 0 3px color-mix(in oklab, var(--c) 12%, transparent);
+        }
+        .program .item.emph .title-sm { color:#111; }
+        .program .badge.kind { border-color: color-mix(in oklab, var(--c) 55%, #e5e7eb); background: color-mix(in oklab, var(--c) 10%, #fff); }
+        .program .badge.kind .dot { background: var(--c); }
+
+
+
+        /* ========= Print: program-only, A4 friendly ========= */
+        @media print {
+            :root { color-scheme: light; }
+            @page { size: A4 portrait; margin: 0mm; }
+
+            /* Preserve colors for dots/badges */
+            body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+            /* Hide site chrome */
+            #sidebar, #header, #menu, footer, .major,
+            #main > .inner > :not(#banner) { display: none !important; }
+
+            /* Make program full-width and simple */
+            #wrapper, #main, #banner, .program {
+                width: auto !important; margin: 0 !important; padding: 0 !important;
+                box-shadow: none !important; background: #fff !important;
+            }
+
+            /* Hide UI-only bits */
+            .program .tabs, .program .legend, .program .note,
+            .program .tab, .program .print-btn, .no-print { display: none !important; }
+
+            /* Expand all days; page breaks between days */
+            .program .day { display: block !important; }
+            .program .day + .day { break-before: page; }
+
+            /* Keep cards intact */
+            .program .grid .item { break-inside: avoid; page-break-inside: avoid; }
+
+            /* Don’t append raw URLs after links */
+            a[href]::after { content: ""; }
+        }
+
+        /* Print button styling (screen only) */
+        .program .print-btn{ border:1px solid var(--ring); background:#fff; color:#222; padding:.5rem .9rem; border-radius:999px; cursor:pointer; font:inherit; }
+
+            .program .print-btn:hover{ background: var(--chip); }
+        @media print { .program .print-btn { display:none !important; } }
+
+    </style>
+
 </head>
 <body class="is-preload">
 
@@ -35,28 +144,570 @@
 
             <!-- Banner -->
             <section id="banner">
-                <header>
-                    <h1>Coming Soon</h1>
-                    <p>Our website is under construction</p>
-                </header>
-                <div class="content" style="display: none">
+
+                <div class="content program">
                     <header>
                         <h1>Program</h1>
-                        <p>Below you can find the conference program in pdf format available for download
-                        </p>
+                        <p>XXXIX Panhellenic Conference on Solid State Physics &amp; Materials Science · 14–17 September 2025 · Paphos</p>
                     </header>
+                    <div class="topbar">
+                        <div>
+                            <h2 class="title">Conference Schedule</h2>
+                            <p class="subtitle">Times are local (Asia/Nicosia). Subject to change.</p>
+                        </div>
+                        <div>
+                            <button class="tab" role="tab" aria-selected="true" data-day="sun">Sun 14/9</button>
+                            <button class="tab" role="tab" aria-selected="false" data-day="mon">Mon 15/9</button>
+                            <button class="tab" role="tab" aria-selected="false" data-day="tue">Tue 16/9</button>
+                            <button class="tab" role="tab" aria-selected="false" data-day="wed">Wed 17/9</button>
+                            <button type="button" class="print-btn" onclick="window.print()">Print program</button>
+                        </div>
+                    </div>
 
-                    <p>
-                        Available for download:<br/>
-                        <a href="Program_final_1.pdf">Conference program</a> <br/>
-                    </p>
-                    <p>
-                        Available for download: <br/>
-                        <a href="Book&#32;of&#32;Abstracts.pdf">Book of Abstracts</a> <br/>
-                    </p>
+
+                    <div class="legend" aria-label="Track legend">
+                        <span class="chip AFM"><span class="dot"></span>AFM — Advanced Functional Materials</span>
+                        <span class="chip ME"><span class="dot"></span>ME — Materials for Energy</span>
+                        <span class="chip MN"><span class="dot"></span>M/N — Micro/Nano Electronics</span>
+                        <span class="chip SM"><span class="dot"></span>SM — Soft Condensed Matter</span>
+                        <span class="chip PHOT"><span class="dot"></span>PHOT — Photonics &amp; Optoelectronics</span>
+                        <span class="chip LDM"><span class="dot"></span>LDM — Low Dimensional Materials</span>
+                        <span class="chip MAG"><span class="dot"></span>MAG — Magnetism</span>
+
+                    </div>
+
+                    <!-- SUNDAY -->
+                    <div id="sun" class="day active">
+                        <h3>Sunday · 14 September 2025</h3>
+                        <div class="grid">
+                            <div class="time">14:00–17:30</div>
+                            <div class="item emph REG">
+                                <div class="title-sm">Registration</div>
+                                <div class="track"><span class="badge kind"><span class="dot"></span>Registration</span></div>
+                            </div>
+
+                            <div class="time">17:25–17:30</div>
+                            <div class="item emph CEREMONY">
+                                <div class="title-sm">Opening announcement and welcoming</div>
+                                <div class="track"><span class="badge kind"><span class="dot"></span>Ceremony</span></div>
+                            </div>
+
+                            <div class="time">17:30–17:45</div>
+                            <div class="item emph CEREMONY">
+                                <div class="title-sm">City of Paphos — Welcoming</div>
+                                <div class="track"><span class="badge kind"><span class="dot"></span>Ceremony</span></div>
+                            </div>
+
+                            <div class="time">17:45–18:00</div>
+                            <div class="item emph CEREMONY">
+                                <div class="title-sm">Deputy Ministry of Research, Innovation, and Digital Policy</div>
+                                <div class="track"><span class="badge kind"><span class="dot"></span>Ceremony</span></div>
+                            </div>
+
+                            <div class="time">18:00–18:15</div>
+                            <div class="item emph CEREMONY">
+                                <div class="title-sm">Cyprus University of Technology</div>
+                                <div class="track"><span class="badge kind"><span class="dot"></span>Ceremony</span></div>
+                            </div>
+
+                            <div class="time">18:15–19:15</div>
+                            <div class="item emph PLENARY">
+                                <div class="title-sm">Plenary: Prof. Giannelis</div>
+                                <div class="track"><span class="badge kind"><span class="dot"></span>Plenary</span></div>
+                            </div>
+
+                            <div class="time">19:15–20:30</div>
+                            <div class="item emph SOCIAL">
+                                <div class="title-sm">Welcome Reception</div>
+                                <div class="track"><span class="badge kind"><span class="dot"></span>Social</span></div>
+                            </div>
+
+                            <div class="time">19:30</div>
+                            <div class="item emph SOCIAL">
+                                <div class="title-sm">Dinner with Invited Speakers</div>
+                                <div class="track"><span class="badge kind"><span class="dot"></span>Social</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- MONDAY -->
+                    <div id="mon" class="day">
+                        <h3>Monday · 15 September 2025</h3>
+                        <div class="grid">
+                            <div class="time">08:00–09:00</div>
+                            <div class="item emph REG">
+                                <div class="title-sm">Registration</div>
+                                <div class="track"><span class="badge kind"><span class="dot"></span>Registration</span></div>
+                            </div>
+
+                            <div class="time">09:00–09:40</div>
+                            <div class="item emph KEYNOTE">
+                                <div class="title-sm">Keynote 1: Prof. Anastasiadis</div>
+                                <div class="track"><span class="badge kind"><span class="dot"></span>Keynote</span></div>
+                            </div>
+
+                            <div class="time">09:45–10:00</div>
+                            <div class="item">
+                                <div class="title-sm">AFM1: A. Chrysafis</div>
+                                <div class="track"><span class="badge AFM"><span class="dot"></span>AFM</span></div>
+                            </div>
+
+                            <div class="time">10:00–10:15</div>
+                            <div class="item">
+                                <div class="title-sm">AFM2: A. F. Lodeiro</div>
+                                <div class="track"><span class="badge AFM"><span class="dot"></span>AFM</span></div>
+                            </div>
+
+                            <div class="time">10:15–10:30</div>
+                            <div class="item">
+                                <div class="title-sm">AFM3: T. M. Tamer</div>
+                                <div class="track"><span class="badge AFM"><span class="dot"></span>AFM</span></div>
+                            </div>
+
+                            <div class="time">10:30–10:45</div>
+                            <div class="item">
+                                <div class="title-sm">AFM4: M. Constantinou</div>
+                                <div class="track"><span class="badge AFM"><span class="dot"></span>AFM</span></div>
+                            </div>
+
+                            <div class="time">10:45–11:00</div>
+                            <div class="item">
+                                <div class="title-sm">AFM5: A. B. Pereira</div>
+                                <div class="track"><span class="badge AFM"><span class="dot"></span>AFM</span></div>
+                            </div>
+
+                            <div class="time">11:00–11:30</div>
+                            <div class="item emph BREAK">
+                                <div class="title-sm">Coffee break 1</div>
+                                <div class="track"><span class="badge kind"><span class="dot"></span>Break</span></div>
+                            </div>
+
+                            <div class="time">11:30–12:10</div>
+                            <div class="item emph KEYNOTE">
+                                <div class="title-sm">Keynote 2: Prof. Stingelin</div>
+                                <div class="track"><span class="badge kind"><span class="dot"></span>Keynote</span></div>
+                            </div>
+
+                            <div class="time">12:10–12:25</div>
+                            <div class="item">
+                                <div class="title-sm">AFM6: E. Kyriakides</div>
+                                <div class="track"><span class="badge AFM"><span class="dot"></span>AFM</span></div>
+                            </div>
+
+                            <div class="time">12:25–12:40</div>
+                            <div class="item">
+                                <div class="title-sm">AFM7: Ch. E. Lekka</div>
+                                <div class="track"><span class="badge AFM"><span class="dot"></span>AFM</span></div>
+                            </div>
+
+                            <div class="time">12:40–12:55</div>
+                            <div class="item">
+                                <div class="title-sm">AFM8: M. Menelaou</div>
+                                <div class="track"><span class="badge AFM"><span class="dot"></span>AFM</span></div>
+                            </div>
+
+                            <div class="time">12:55–13:10</div>
+                            <div class="item">
+                                <div class="title-sm">AFM9: S. Bousios</div>
+                                <div class="track"><span class="badge AFM"><span class="dot"></span>AFM</span></div>
+                            </div>
+
+                            <div class="time">13:10–13:25</div>
+                            <div class="item">
+                                <div class="title-sm">AFM10: C. Marangos</div>
+                                <div class="track"><span class="badge AFM"><span class="dot"></span>AFM</span></div>
+                            </div>
+
+                            <div class="time">13:30–14:45</div>
+                            <div class="item emph BREAK">
+                                <div class="title-sm">Lunch break 2</div>
+                                <div class="track"><span class="badge kind"><span class="dot"></span>Break</span></div>
+                            </div>
+
+                            <div class="time">14:45–15:15</div>
+                            <div class="item emph INVITED">
+                                <div class="title-sm">Invited 1: Prof. Papavasiliou</div>
+                                <div class="track"><span class="badge kind"><span class="dot"></span>Invited</span></div>
+                            </div>
+
+                            <div class="time">15:15–15:30</div>
+                            <div class="item">
+                                <div class="title-sm">ME1: P. S. Ioannou</div>
+                                <div class="track"><span class="badge ME"><span class="dot"></span>ME</span></div>
+                            </div>
+
+                            <div class="time">15:30–15:45</div>
+                            <div class="item">
+                                <div class="title-sm">ME2: S. Hadjipanteli</div>
+                                <div class="track"><span class="badge ME"><span class="dot"></span>ME</span></div>
+                            </div>
+
+                            <div class="time">15:45–16:00</div>
+                            <div class="item">
+                                <div class="title-sm">ME3: E. Glynos</div>
+                                <div class="track"><span class="badge ME"><span class="dot"></span>ME</span></div>
+                            </div>
+
+                            <div class="time">16:00–16:15</div>
+                            <div class="item">
+                                <div class="title-sm">ME4: M. Lusha</div>
+                                <div class="track"><span class="badge ME"><span class="dot"></span>ME</span></div>
+                            </div>
+
+                            <div class="time">16:15–16:45</div>
+                            <div class="item emph BREAK">
+                                <div class="title-sm">Coffee break 2</div>
+                                <div class="track"><span class="badge kind"><span class="dot"></span>Break</span></div>
+                            </div>
+
+                            <div class="time">16:45–17:05</div>
+                            <div class="item emph SPONSOR">
+                                <div class="title-sm">Sponsor talk 1: COHERENT</div>
+                                <div class="track"><span class="badge kind"><span class="dot"></span>Sponsor</span></div>
+                            </div>
+
+                            <div class="time">17:10–18:30</div>
+                            <div class="item emph POSTER">
+                                <div class="title-sm">Poster Session A</div>
+                                <div class="track"><span class="badge kind"><span class="dot"></span>Poster</span></div>
+                            </div>
+
+                            <div class="time">19:30</div>
+                            <div class="item emph SOCIAL">
+                                <div class="title-sm">Dinner with Invited Speakers</div>
+                                <div class="track"><span class="badge kind"><span class="dot"></span>Social</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TUESDAY -->
+                    <div id="tue" class="day">
+                        <h3>Tuesday · 16 September 2025</h3>
+                        <div class="grid">
+                            <div class="time">08:00–09:00</div>
+                            <div class="item emph REG">
+                                <div class="title-sm">Registration</div>
+                                <div class="track"><span class="badge kind"><span class="dot"></span>Registration</span></div>
+                            </div>
+
+                            <div class="time">09:00–09:40</div>
+                            <div class="item emph KEYNOTE">
+                                <div class="title-sm">Keynote 2: Prof. Heiss</div>
+                                <div class="track"><span class="badge kind"><span class="dot"></span>Keynote</span></div>
+                            </div>
+
+                            <div class="time">09:40–10:10</div>
+                            <div class="item emph INVITED">
+                                <div class="title-sm">Invited 3: Dr Stergiopoulos</div>
+                                <div class="track"><span class="badge kind"><span class="dot"></span>Invited</span></div>
+                            </div>
+
+                            <div class="time">10:15–10:30</div>
+                            <div class="item">
+                                <div class="title-sm">ME5: A. Kostopoulou</div>
+                                <div class="track"><span class="badge ME"><span class="dot"></span>ME</span></div>
+                            </div>
+
+                            <div class="time">10:30–10:45</div>
+                            <div class="item">
+                                <div class="title-sm">ME6: F. Galatopoulos</div>
+                                <div class="track"><span class="badge ME"><span class="dot"></span>ME</span></div>
+                            </div>
+
+                            <div class="time">10:45–11:00</div>
+                            <div class="item">
+                                <div class="title-sm">ME7: A. Ioakeimidis</div>
+                                <div class="track"><span class="badge ME"><span class="dot"></span>ME</span></div>
+                            </div>
+
+                            <div class="time">11:00–11:15</div>
+                            <div class="item">
+                                <div class="title-sm">ME8: S. C. Hayes</div>
+                                <div class="track"><span class="badge ME"><span class="dot"></span>ME</span></div>
+                            </div>
+
+                            <div class="time">11:15–11:30</div>
+                            <div class="item">
+                                <div class="title-sm">ME9: R. R. Khalifa</div>
+                                <div class="track"><span class="badge ME"><span class="dot"></span>ME</span></div>
+                            </div>
+
+                            <div class="time">11:30–11:45</div>
+                            <div class="item">
+                                <div class="title-sm">ME10: L. Socaciou-Siebert</div>
+                                <div class="track"><span class="badge ME"><span class="dot"></span>ME</span></div>
+                            </div>
+
+                            <div class="time">11:45–12:15</div>
+                            <div class="item emph BREAK">
+                                <div class="title-sm">Coffee break 3</div>
+                                <div class="track"><span class="badge kind"><span class="dot"></span>Break</span></div>
+                            </div>
+
+                            <div class="time">12:15–12:45</div>
+                            <div class="item emph INVITED">
+                                <div class="title-sm">Invited 3: Prof. Fyta</div>
+                                <div class="track"><span class="badge kind"><span class="dot"></span>Invited</span></div>
+                            </div>
+
+                            <div class="time">12:45–13:15</div>
+                            <div class="item emph INVITED">
+                                <div class="title-sm">Invited 4: Dr Zacharias</div>
+                                <div class="track"><span class="badge kind"><span class="dot"></span>Invited</span></div>
+                            </div>
+
+                            <div class="time">13:15–13:30</div>
+                            <div class="item">
+                                <div class="title-sm">AFM11: E. Christofi</div>
+                                <div class="track"><span class="badge AFM"><span class="dot"></span>AFM</span></div>
+                            </div>
+
+                            <div class="time">13:30–13:45</div>
+                            <div class="item">
+                                <div class="title-sm">AFM12: N. Patsalidis</div>
+                                <div class="track"><span class="badge AFM"><span class="dot"></span>AFM</span></div>
+                            </div>
+
+                            <div class="time">13:45–14:00</div>
+                            <div class="item">
+                                <div class="title-sm">AFM13: P. Ilia</div>
+                                <div class="track"><span class="badge AFM"><span class="dot"></span>AFM</span></div>
+                            </div>
+
+                            <div class="time">14:00–14:15</div>
+                            <div class="item">
+                                <div class="title-sm">AFM14: P. A. Polykarpou</div>
+                                <div class="track"><span class="badge AFM"><span class="dot"></span>AFM</span></div>
+                            </div>
+
+                            <div class="time">14:15–14:30</div>
+                            <div class="item">
+                                <div class="title-sm">AFM15: A. K. Ioannou</div>
+                                <div class="track"><span class="badge AFM"><span class="dot"></span>AFM</span></div>
+                            </div>
+
+                            <div class="time">14:30–15:30</div>
+                            <div class="item emph BREAK">
+                                <div class="title-sm">Lunch break 2</div>
+                                <div class="track"><span class="badge kind"><span class="dot"></span>Break</span></div>
+                            </div>
+
+                            <div class="time">15:30–16:15</div>
+                            <div class="item">
+                                <div class="title-sm">M/N1: D. Ritsopoulos</div>
+                                <div class="track"><span class="badge MN"><span class="dot"></span>M/N</span></div>
+                            </div>
+
+                            <div class="time">16:15–16:30</div>
+                            <div class="item">
+                                <div class="title-sm">M/N2: D. Tsoukalas</div>
+                                <div class="track"><span class="badge MN"><span class="dot"></span>M/N</span></div>
+                            </div>
+
+                            <div class="time">16:30–16:45</div>
+                            <div class="item">
+                                <div class="title-sm">M/N3: S. Sarigiannidis</div>
+                                <div class="track"><span class="badge MN"><span class="dot"></span>M/N</span></div>
+                            </div>
+
+                            <div class="time">16:45–17:00</div>
+                            <div class="item">
+                                <div class="title-sm">M/N4: D. Kanatsiopoulos</div>
+                                <div class="track"><span class="badge MN"><span class="dot"></span>M/N</span></div>
+                            </div>
+
+                            <div class="time">17:00–17:30</div>
+                            <div class="item emph BREAK">
+                                <div class="title-sm">Coffee break 4</div>
+                                <div class="track"><span class="badge kind"><span class="dot"></span>Break</span></div>
+                            </div>
+
+                            <div class="time">17:30–17:50</div>
+                            <div class="item emph SPONSOR">
+                                <div class="title-sm">Sponsor talk 2: Lumoscribe</div>
+                                <div class="track"><span class="badge kind"><span class="dot"></span>Sponsor</span></div>
+                            </div>
+
+                            <div class="time">17:55–19:15</div>
+                            <div class="item emph POSTER">
+                                <div class="title-sm">Poster Session B</div>
+                                <div class="track"><span class="badge kind"><span class="dot"></span>Poster</span></div>
+                            </div>
+
+                            <div class="time">20:00</div>
+                            <div class="item emph SOCIAL">
+                                <div class="title-sm">Conference Dinner</div>
+                                <div class="track"><span class="badge kind"><span class="dot"></span>Social</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- WEDNESDAY -->
+                    <div id="wed" class="day">
+                        <h3>Wednesday · 17 September 2025</h3>
+                        <div class="grid">
+                            <div class="time">08:00–09:30</div>
+                            <div class="item emph REG">
+                                <div class="title-sm">Registration</div>
+                                <div class="track"><span class="badge kind"><span class="dot"></span>Registration</span></div>
+                            </div>
+
+                            <div class="time">09:30–10:00</div>
+                            <div class="item emph INVITED">
+                                <div class="title-sm">Invited 5: Prof. Stephanou</div>
+                                <div class="track"><span class="badge kind"><span class="dot"></span>Invited</span></div>
+                            </div>
+
+                            <div class="time">10:00–10:15</div>
+                            <div class="item">
+                                <div class="title-sm">SM1: K. Chrissopoulou</div>
+                                <div class="track"><span class="badge SM"><span class="dot"></span>SM</span></div>
+                            </div>
+
+                            <div class="time">10:15–10:30</div>
+                            <div class="item">
+                                <div class="title-sm">SM2: S. B. Atata</div>
+                                <div class="track"><span class="badge SM"><span class="dot"></span>SM</span></div>
+                            </div>
+
+                            <div class="time">10:30–10:45</div>
+                            <div class="item">
+                                <div class="title-sm">SM3: P. Katsamba</div>
+                                <div class="track"><span class="badge SM"><span class="dot"></span>SM</span></div>
+                            </div>
+
+                            <div class="time">10:45–11:00</div>
+                            <div class="item">
+                                <div class="title-sm">SM4: G. Sakellion</div>
+                                <div class="track"><span class="badge SM"><span class="dot"></span>SM</span></div>
+                            </div>
+
+                            <div class="time">11:00–11:15</div>
+                            <div class="item">
+                                <div class="title-sm">SM5: A. Tomilo</div>
+                                <div class="track"><span class="badge SM"><span class="dot"></span>SM</span></div>
+                            </div>
+
+                            <div class="time">11:30–12:00</div>
+                            <div class="item emph BREAK">
+                                <div class="title-sm">Coffee break 5</div>
+                                <div class="track"><span class="badge kind"><span class="dot"></span>Break</span></div>
+                            </div>
+
+                            <div class="time">12:00–12:30</div>
+                            <div class="item emph INVITED">
+                                <div class="title-sm">Invited 6: Prof. Kassavetis</div>
+                                <div class="track"><span class="badge kind"><span class="dot"></span>Invited</span></div>
+                            </div>
+
+                            <div class="time">12:30–12:45</div>
+                            <div class="item">
+                                <div class="title-sm">PHOT1: K. Georgiou</div>
+                                <div class="track"><span class="badge PHOT"><span class="dot"></span>PHOT</span></div>
+                            </div>
+
+                            <div class="time">12:45–13:00</div>
+                            <div class="item">
+                                <div class="title-sm">PHOT2: E. Lidorikis</div>
+                                <div class="track"><span class="badge PHOT"><span class="dot"></span>PHOT</span></div>
+                            </div>
+
+                            <div class="time">13:00–13:15</div>
+                            <div class="item">
+                                <div class="title-sm">PHOT3: L. Koutsokeras</div>
+                                <div class="track"><span class="badge PHOT"><span class="dot"></span>PHOT</span></div>
+                            </div>
+
+                            <div class="time">13:15–13:30</div>
+                            <div class="item">
+                                <div class="title-sm">PHOT4: N. Stathopoulos</div>
+                                <div class="track"><span class="badge PHOT"><span class="dot"></span>PHOT</span></div>
+                            </div>
+
+                            <div class="time">13:30–13:45</div>
+                            <div class="item">
+                                <div class="title-sm">PHOT5: S. Doukas</div>
+                                <div class="track"><span class="badge PHOT"><span class="dot"></span>PHOT</span></div>
+                            </div>
+
+                            <div class="time">13:45–14:00</div>
+                            <div class="item">
+                                <div class="title-sm">PHOT6: M. Trapoulouzi</div>
+                                <div class="track"><span class="badge PHOT"><span class="dot"></span>PHOT</span></div>
+                            </div>
+
+                            <div class="time">14:00–15:15</div>
+                            <div class="item emph BREAK">
+                                <div class="title-sm">Lunch break 3</div>
+                                <div class="track"><span class="badge kind"><span class="dot"></span>Break</span></div>
+                            </div>
+
+                            <div class="time">15:15–15:45</div>
+                            <div class="item emph INVITED">
+                                <div class="title-sm">Invited 7: Prof. Trypiniotis</div>
+                                <div class="track"><span class="badge kind"><span class="dot"></span>Invited</span></div>
+                            </div>
+
+                            <div class="time">15:45–16:00</div>
+                            <div class="item">
+                                <div class="title-sm">MAG1: A. Barnasas</div>
+                                <div class="track"><span class="badge MAG"><span class="dot"></span>MAG</span></div>
+                            </div>
+
+                            <div class="time">16:00–16:15</div>
+                            <div class="item">
+                                <div class="title-sm">LDM1: E. Koukaras</div>
+                                <div class="track"><span class="badge LDM"><span class="dot"></span>LDM</span></div>
+                            </div>
+
+                            <div class="time">16:15–16:35</div>
+                            <div class="item emph SPONSOR">
+                                <div class="title-sm">Sponsor talk 3: RINNOCO</div>
+                                <div class="track"><span class="badge kind"><span class="dot"></span>Sponsor</span></div>
+                            </div>
+
+                            <div class="time">16:35–16:50</div>
+                            <div class="item emph CEREMONY">
+                                <div class="title-sm">Awards</div>
+                                <div class="track"><span class="badge kind"><span class="dot"></span>Ceremony</span></div>
+                            </div>
+
+                            <div class="time">16:50–17:00</div>
+                            <div class="item emph CEREMONY">
+                                <div class="title-sm">Closing ceremony</div>
+                                <div class="track"><span class="badge kind"><span class="dot"></span>Ceremony</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="note">                        <!-- Special types -->
+                        <span class="chip PLENARY"><span class="dot"></span>Plenary</span>
+                        <span class="chip KEYNOTE"><span class="dot"></span>Keynote</span>
+                        <span class="chip INVITED"><span class="dot"></span>Invited</span>
+                        <span class="chip BREAK"><span class="dot"></span>Break</span>
+                        <span class="chip SPONSOR"><span class="dot"></span>Sponsor</span>
+                        <span class="chip POSTER"><span class="dot"></span>Poster</span>
+                        <span class="chip CEREMONY"><span class="dot"></span>Ceremony</span>
+                        <span class="chip SOCIAL"><span class="dot"></span>Social</span>
+                        <span class="chip REG"><span class="dot"></span>Registration</span></p>
                 </div>
-            </section>
 
+                <script>
+                    (function(){
+                        const root = document.currentScript.parentElement;
+                        const tabs = root.querySelectorAll('.tab');
+                        const days = root.querySelectorAll('.day');
+                        tabs.forEach(tab=>{
+                            tab.addEventListener('click', ()=>{
+                                tabs.forEach(t=>t.setAttribute('aria-selected','false'));
+                                tab.setAttribute('aria-selected','true');
+                                const key = tab.dataset.day;
+                                days.forEach(d=>d.classList.toggle('active', d.id===key));
+                            });
+                        });
+                    })();
+                </script>
+            </section>
 
         </div>
     </div>
@@ -105,9 +756,11 @@
                     <h2>Announcements</h2>
                 </header>
                 <ul>
-                                        <li><span class="date">22/06/2025</span><br/>The abstract submission deadline has been extended. <strong>The new deadline is July 04, 2025</strong><sup></sup>
+                    <li><span class="date">22/06/2025</span><br/>The abstract submission deadline has been extended.
+                        <strong>The new deadline is July 04, 2025</strong><sup></sup>
                     </li>
-					<li><span class="date">20/05/2025</span><br/>Abstract submission and Registration are open<sup></sup>
+                    <li><span class="date">20/05/2025</span><br/>Abstract submission and Registration are
+                        open<sup></sup>
                     </li>
                     <li><span class="date">12/03/2025</span><br/>Conference Website is public<sup></sup>
                     </li>
