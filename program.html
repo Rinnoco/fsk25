@@ -13,42 +13,214 @@
     <link rel="stylesheet" href="assets/css/main.css"/>
     <style>
         /* ===== Program styles (namespaced) ===== */
-        .program { --fg:#222; --muted:#666; --ring:#e5e7eb; --chip:#f5f7fb; --accent:#2745ff; --bg:#fff; }
-        .program * { box-sizing: border-box; }
-        .program .topbar { display:flex; align-items:center; justify-content:space-between; gap:.75rem; flex-wrap:wrap; }
-        .program .title { margin:0; font-size:1.6rem; }
-        .program .subtitle { color:var(--muted); margin:.25rem 0 0; }
-        .program .tabs { display:flex; gap:.5rem; flex-wrap:wrap; margin:1rem 0; }
-        .program .tab { border:1px solid var(--ring); background:#fff; color:#222; padding:.5rem .9rem; border-radius:999px; cursor:pointer; font:inherit; }
-        .program .tab[aria-selected="true"] { background:cornsilk; color:#fff; border-color:transparent; }
-        .program .legend { display:flex; flex-wrap:wrap; gap:.5rem; margin:.5rem 0 1rem; }
-        .program .chip { display:inline-flex; gap:.5rem; align-items:center; background:var(--chip); border:1px solid var(--ring); padding:.35rem .6rem; border-radius:999px; font-size:.9rem; color:#333; }
-        .program .dot { width:.65rem; height:.65rem; border-radius:50%; display:inline-block; }
-        .program .day { display:none; }
-        .program .day.active { display:block; }
-        .program h3 { margin:1.2rem 0 .6rem; font-size:1.25rem; color:#111; }
-        .program .grid { display:grid; grid-template-columns:minmax(100px,110px) 1fr; gap:.6rem .8rem; }
-        .program .item { background:#fff; border:1px solid var(--ring); border-radius:12px; padding:.5rem .9rem; }
-        .program .time { color:#444; font-weight:600; padding-top:.8rem; }
-        .program .title-sm { margin:.1rem 0; font-weight:700; }
-        .program .track { display:inline-flex; align-items:center; gap:.4rem; margin-top:.25rem; font-size:.8rem; }
-        .program .badge { display:inline-flex; align-items:center; gap:.35rem; padding:.15rem .45rem; border-radius:999px; border:1px dashed var(--ring); background:#fafafa; }
-        .program .note { color:var(--muted); font-size:.95rem; margin-top:1rem; }
+        .program {
+            --fg: #222;
+            --muted: #666;
+            --ring: #e5e7eb;
+            --chip: #f5f7fb;
+            --accent: #2745ff;
+            --bg: #fff;
+        }
+
+        .program * {
+            box-sizing: border-box;
+        }
+
+        .program .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: .75rem;
+            flex-wrap: wrap;
+        }
+
+        .program .title {
+            margin: 0;
+            font-size: 1.6rem;
+        }
+
+        .program .subtitle {
+            color: var(--muted);
+            margin: .25rem 0 0;
+        }
+
+        .program .tabs {
+            display: flex;
+            gap: .5rem;
+            flex-wrap: wrap;
+            margin: 1rem 0;
+        }
+
+        .program .tab {
+            border: 1px solid var(--ring);
+            background: #fff;
+            color: #222;
+            padding: .5rem .9rem;
+            border-radius: 999px;
+            cursor: pointer;
+            font: inherit;
+        }
+
+        .program .tab[aria-selected="true"] {
+            background: cornsilk;
+            color: #fff;
+            border-color: transparent;
+        }
+
+        .program .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .5rem;
+            margin: .5rem 0 1rem;
+        }
+
+        .program .chip {
+            display: inline-flex;
+            gap: .5rem;
+            align-items: center;
+            background: var(--chip);
+            border: 1px solid var(--ring);
+            padding: .35rem .6rem;
+            border-radius: 999px;
+            font-size: .9rem;
+            color: #333;
+        }
+
+        .program .dot {
+            width: .65rem;
+            height: .65rem;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .program .day {
+            display: none;
+        }
+
+        .program .day.active {
+            display: block;
+        }
+
+        .program h3 {
+            margin: 1.2rem 0 .6rem;
+            font-size: 1.25rem;
+            color: #111;
+        }
+
+        .program .grid {
+            display: grid;
+            grid-template-columns:minmax(100px, 110px) 1fr;
+            gap: .6rem .8rem;
+        }
+
+        .program .item {
+            background: #fff;
+            border: 1px solid var(--ring);
+            border-radius: 12px;
+            padding: .5rem .9rem;
+        }
+
+        .program .time {
+            color: #444;
+            font-weight: 600;
+            padding-top: .8rem;
+        }
+
+        .program .title-sm {
+            margin: .1rem 0;
+            font-weight: 700;
+        }
+
+        .program .track {
+            display: inline-flex;
+            align-items: center;
+            gap: .4rem;
+            margin-top: .25rem;
+            font-size: .8rem;
+        }
+
+        .program .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: .35rem;
+            padding: .15rem .45rem;
+            border-radius: 999px;
+            border: 1px dashed var(--ring);
+            background: #fafafa;
+        }
+
+        .program .note {
+            color: var(--muted);
+            font-size: .95rem;
+            margin-top: 1rem;
+        }
+
         /* Track colors */
-        .program .AFM { --c:#2ca36b; } .program .ME { --c:#d08b00; } .program .MN { --c:#bb6b00; }
-        .program .SM { --c:#0b84a5; } .program .PHOT { --c:#6f42c1; } .program .LDM { --c:#0086d1; } .program .MAG { --c:#c03a5b; }
+        .program .AFM {
+            --c: #2ca36b;
+        }
+
+        .program .ME {
+            --c: #d08b00;
+        }
+
+        .program .MN {
+            --c: #bb6b00;
+        }
+
+        .program .SM {
+            --c: #0b84a5;
+        }
+
+        .program .PHOT {
+            --c: #6f42c1;
+        }
+
+        .program .LDM {
+            --c: #0086d1;
+        }
+
+        .program .MAG {
+            --c: #c03a5b;
+        }
 
         /* === Special session types === */
-        .program .BREAK   { --c:#9aa5b1; background:linear-gradient(0deg,#fafafa,#fff); }
-        .program .KEYNOTE { --c:#0b7; }
-        .program .PLENARY { --c:#1061ff; }
-        .program .INVITED { --c:#8a2be2; }
-        .program .SPONSOR { --c:#d97706; }
-        .program .POSTER  { --c: #9ea316; }
-        .program .CEREMONY{ --c:#ef4444; }
-        .program .SOCIAL  { --c:#0ea5e9; }
-        .program .REG     { --c:#64748b; }
+        .program .BREAK {
+            --c: #9aa5b1;
+            background: linear-gradient(0deg, #fafafa, #fff);
+        }
 
+        .program .KEYNOTE {
+            --c: #0b7;
+        }
+
+        .program .PLENARY {
+            --c: #1061ff;
+        }
+
+        .program .INVITED {
+            --c: #8a2be2;
+        }
+
+        .program .SPONSOR {
+            --c: #d97706;
+        }
+
+        .program .POSTER {
+            --c: #9ea316;
+        }
+
+        .program .CEREMONY {
+            --c: #ef4444;
+        }
+
+        .program .SOCIAL {
+            --c: #0ea5e9;
+        }
+
+        .program .REG {
+            --c: #64748b;
+        }
 
         .program .BREAK .dot,
         .program .KEYNOTE .dot,
@@ -59,65 +231,144 @@
         .program .CEREMONY .dot,
         .program .SOCIAL .dot,
         .program .REG .dot, .program .AFM .dot, .program .ME .dot, .program .MN .dot, .program .SM .dot,
-        .program .PHOT .dot, .program .LDM .dot, .program .MAG .dot { background:var(--c); }
-
-
+        .program .PHOT .dot, .program .LDM .dot, .program .MAG .dot {
+            background: var(--c);
+        }
 
         @media print {
-            .program .tabs, .program .legend { display:none !important; }
-            .program .day { display:block !important; }
-            .program .grid .item { break-inside: avoid; page-break-inside: avoid; }
+            .program .tabs, .program .legend {
+                display: none !important;
+            }
+
+            .program .day {
+                display: block !important;
+            }
+
+            .program .grid .item {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
         }
 
         .program .item.emph {
-            border:1px solid color-mix(in oklab, var(--c) 45%, #e5e7eb);
-            box-shadow: 0 1px 0 rgba(0,0,0,.04), 0 0 0 3px color-mix(in oklab, var(--c) 12%, transparent);
+            border: 1px solid color-mix(in oklab, var(--c) 45%, #e5e7eb);
+            box-shadow: 0 1px 0 rgba(0, 0, 0, .04), 0 0 0 3px color-mix(in oklab, var(--c) 12%, transparent);
         }
-        .program .item.emph .title-sm { color:#111; }
-        .program .badge.kind { border-color: color-mix(in oklab, var(--c) 55%, #e5e7eb); background: color-mix(in oklab, var(--c) 10%, #fff); }
-        .program .badge.kind .dot { background: var(--c); }
 
+        .program .item.emph .title-sm {
+            color: #111;
+        }
 
+        .program .badge.kind {
+            border-color: color-mix(in oklab, var(--c) 55%, #e5e7eb);
+            background: color-mix(in oklab, var(--c) 10%, #fff);
+        }
+
+        .program .badge.kind .dot {
+            background: var(--c);
+        }
 
         /* ========= Print: program-only, A4 friendly ========= */
         @media print {
-            :root { color-scheme: light; }
-            @page { size: A4 portrait; margin: 0mm; }
+            :root {
+                color-scheme: light;
+            }
+
+            @page {
+                size: A4 portrait;
+                margin: 0mm;
+            }
 
             /* Preserve colors for dots/badges */
-            body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
 
             /* Hide site chrome */
             #sidebar, #header, #menu, footer, .major,
-            #main > .inner > :not(#banner) { display: none !important; }
+            #main > .inner > :not(#banner) {
+                display: none !important;
+            }
 
             /* Make program full-width and simple */
             #wrapper, #main, #banner, .program {
-                width: auto !important; margin: 0 !important; padding: 0 !important;
-                box-shadow: none !important; background: #fff !important;
+                width: auto !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                box-shadow: none !important;
+                background: #fff !important;
             }
 
             /* Hide UI-only bits */
             .program .tabs, .program .legend, .program .note,
-            .program .tab, .program .print-btn, .no-print { display: none !important; }
+            .program .tab, .program .print-btn, .no-print {
+                display: none !important;
+            }
 
             /* Expand all days; page breaks between days */
-            .program .day { display: block !important; }
-            .program .day + .day { break-before: page; }
+            .program .day {
+                display: block !important;
+            }
+
+            .program .day + .day {
+                break-before: page;
+            }
 
             /* Keep cards intact */
-            .program .grid .item { break-inside: avoid; page-break-inside: avoid; }
+            .program .grid .item {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
 
             /* Don’t append raw URLs after links */
-            a[href]::after { content: ""; }
+            a[href]::after {
+                content: "";
+            }
         }
 
         /* Print button styling (screen only) */
-        .program .print-btn{ border:1px solid var(--ring); background:#fff; color:#222; padding:.5rem .9rem; border-radius:999px; cursor:pointer; font:inherit; }
+        .program .print-btn {
+            border: 1px solid var(--ring);
+            background: #fff;
+            color: #222;
+            padding: .5rem .9rem;
+            border-radius: 999px;
+            cursor: pointer;
+            font: inherit;
+        }
 
-            .program .print-btn:hover{ background: var(--chip); }
-        @media print { .program .print-btn { display:none !important; } }
+        .program .print-btn:hover {
+            background: var(--chip);
+        }
 
+        @media print {
+            .program .print-btn {
+                display: none !important;
+            }
+        }
+
+
+        /* Sub-rows inside grouped session boxes */
+        .program .session {
+            display: grid;
+            grid-template-columns:minmax(90px, 110px) 1fr;
+            gap: .4rem .6rem;
+            margin-top: .6rem
+        }
+
+        .program .session .subtime {
+            color: #444;
+            font-weight: 600
+        }
+
+        .program .session .subitem .subtitle {
+            margin-top: .15rem
+        }
+
+        .program .session .subitem .track {
+            margin-top: .25rem
+        }
     </style>
 
 </head>
@@ -131,7 +382,6 @@
         <div class="inner">
 
             <!-- Header -->
-            <!-- Header -->
             <header id="header">
                 <a href="index.html" class="logo">
                     <img src="images/logo.png" alt="Conference Logo" height="50"
@@ -141,14 +391,14 @@
                 </a>
             </header>
 
-
             <!-- Banner -->
             <section id="banner">
 
                 <div class="content program">
                     <header>
                         <h1>Program</h1>
-                        <p>XXXIX Panhellenic Conference on Solid State Physics &amp; Materials Science · 14–17 September 2025 · Paphos</p>
+                        <p>XXXIX Panhellenic Conference on Solid State Physics &amp; Materials Science · 14–17 September
+                            2025 · Paphos</p>
                     </header>
                     <div class="topbar">
                         <div>
@@ -164,7 +414,6 @@
                         </div>
                     </div>
 
-
                     <div class="legend" aria-label="Track legend">
                         <span class="chip AFM"><span class="dot"></span>AFM — Advanced Functional Materials</span>
                         <span class="chip ME"><span class="dot"></span>ME — Materials for Energy</span>
@@ -173,7 +422,6 @@
                         <span class="chip PHOT"><span class="dot"></span>PHOT — Photonics &amp; Optoelectronics</span>
                         <span class="chip LDM"><span class="dot"></span>LDM — Low Dimensional Materials</span>
                         <span class="chip MAG"><span class="dot"></span>MAG — Magnetism and Strongly Correlated Systems</span>
-
                     </div>
 
                     <!-- SUNDAY -->
@@ -183,25 +431,33 @@
                             <div class="time">14:00–17:30</div>
                             <div class="item emph REG">
                                 <div class="title-sm">Registration</div>
-                                <div class="track"><span class="badge kind"><span class="dot"></span>Registration</span></div>
+                                <div class="track"><span class="badge kind"><span class="dot"></span>Registration</span>
+                                </div>
                             </div>
 
                             <div class="time">17:25–17:30</div>
                             <div class="item emph CEREMONY">
                                 <div class="title-sm">Opening Announcement</div>
-                                <div class="track"><span class="badge kind"><span class="dot"></span>Ceremony</span></div>
+                                <div class="track"><span class="badge kind"><span class="dot"></span>Ceremony</span>
+                                </div>
                             </div>
 
                             <div class="time">17:30–18:15</div>
                             <div class="item emph CEREMONY">
                                 <div class="title-sm">Welcoming</div>
-                                <div class="track"><span class="badge kind"><span class="dot"></span>Ceremony</span></div>
+                                <div class="track"><span class="badge kind"><span class="dot"></span>Ceremony</span>
+                                </div>
                             </div>
 
                             <div class="time">18:15–19:15</div>
                             <div class="item emph PLENARY">
                                 <div class="title-sm">Plenary: Prof. Giannelis</div>
-                                <div class="track"><span class="badge kind"><span class="dot"></span>Plenary</span></div>
+                                <div class="subtitle">Chair: Prof. Pantelis Kelires</div>
+                                <div class="subtitle">“Development of Electrocatalysts for Energy Conversion and Storage
+                                    Devices”
+                                </div>
+                                <div class="track"><span class="badge kind"><span class="dot"></span>Plenary</span>
+                                </div>
                             </div>
 
                             <div class="time">19:15–20:30</div>
@@ -219,43 +475,79 @@
                             <div class="time">08:00–09:00</div>
                             <div class="item emph REG">
                                 <div class="title-sm">Registration</div>
-                                <div class="track"><span class="badge kind"><span class="dot"></span>Registration</span></div>
+                                <div class="track"><span class="badge kind"><span class="dot"></span>Registration</span>
+                                </div>
                             </div>
 
-                            <div class="time">09:00–09:40</div>
-                            <div class="item emph KEYNOTE">
-                                <div class="title-sm">Keynote 1: Prof. Anastasiadis</div>
-                                <div class="track"><span class="badge kind"><span class="dot"></span>Keynote</span></div>
-                            </div>
+                            <!-- Grouped Morning Session (Chair: Prof. Spyros Kassavetis) -->
+                            <div class="time">09:00–11:00</div>
+                            <div class="item emph AFM" role="group"
+                                 aria-label="Session 1 — Chair: Prof. Spyros Kassavetis">
+                                <div class="title-sm">Session 1</div>
+                                <div class="subtitle">Chair: Prof. Spyros Kassavetis</div>
 
-                            <div class="time">09:45–10:00</div>
-                            <div class="item">
-                                <div class="title-sm">AFM1: A. Fernández-Lodeiro</div>
-                                <div class="track"><span class="badge AFM"><span class="dot"></span>AFM</span></div>
-                            </div>
+                                <div class="session">
+                                    <div class="subtime">09:00–09:40</div>
+                                    <div class="subitem">
+                                        <div class="title-sm">Keynote 1: Prof. Anastasiadis</div>
+                                        <div class="subtitle">“Development of Superhydrophobic Polymer Nanocomposite
+                                            Coatings with Antimicrobial Properties”
+                                        </div>
+                                        <div class="track"><span class="badge kind"><span
+                                                class="dot"></span>Keynote</span></div>
+                                    </div>
 
-                            <div class="time">10:00–10:15</div>
-                            <div class="item">
-                                <div class="title-sm">AFM2: T. M. Tamer</div>
-                                <div class="track"><span class="badge AFM"><span class="dot"></span>AFM</span></div>
-                            </div>
+                                    <div class="subtime">09:45–10:00</div>
+                                    <div class="subitem">
+                                        <div class="title-sm">AFM1: A. Fernández-Lodeiro</div>
+                                        <div class="subtitle">“Development of Dual-Mode SERS and Fluorescence Nanoprobes
+                                            Using Mesoporous Silica-Coated Anisotropic Gold Nanoparticles”
+                                        </div>
+                                        <div class="track"><span class="badge AFM"><span class="dot"></span>AFM</span>
+                                        </div>
+                                    </div>
 
-                            <div class="time">10:15–10:30</div>
-                            <div class="item">
-                                <div class="title-sm">AFM3: R. E. Khalifa</div>
-                                <div class="track"><span class="badge AFM"><span class="dot"></span>AFM</span></div>
-                            </div>
+                                    <div class="subtime">10:00–10:15</div>
+                                    <div class="subitem">
+                                        <div class="title-sm">AFM2: T. M. Tamer</div>
+                                        <div class="subtitle">“Polystyrene and Sulfonated Derivatives for Ammonia
+                                            Adsorption from Water”
+                                        </div>
+                                        <div class="track"><span class="badge AFM"><span class="dot"></span>AFM</span>
+                                        </div>
+                                    </div>
 
-                            <div class="time">10:30–10:45</div>
-                            <div class="item">
-                                <div class="title-sm">AFM4: M. Constantinou</div>
-                                <div class="track"><span class="badge AFM"><span class="dot"></span>AFM</span></div>
-                            </div>
+                                    <div class="subtime">10:15–10:30</div>
+                                    <div class="subitem">
+                                        <div class="title-sm">AFM3: R. E. Khalifa</div>
+                                        <div class="subtitle">“Tuning the Performance of Sulfonated Polyvinylidene
+                                            Fluoride-hexafluoropropylene/cellulose acetate Membrane by Sulfonic Acid
+                                            Functionalized ZIF-8 for DMFC applications”
+                                        </div>
+                                        <div class="track"><span class="badge AFM"><span class="dot"></span>AFM</span>
+                                        </div>
+                                    </div>
 
-                            <div class="time">10:45–11:00</div>
-                            <div class="item">
-                                <div class="title-sm">AFM5: A. B. Pereira</div>
-                                <div class="track"><span class="badge AFM"><span class="dot"></span>AFM</span></div>
+                                    <div class="subtime">10:30–10:45</div>
+                                    <div class="subitem">
+                                        <div class="title-sm">AFM4: M. Constantinou</div>
+                                        <div class="subtitle">“Synthesis and Characterization of Polymer-Derived Carbon
+                                            Foam for Solar Steam Generation”
+                                        </div>
+                                        <div class="track"><span class="badge AFM"><span class="dot"></span>AFM</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="subtime">10:45–11:00</div>
+                                    <div class="subitem">
+                                        <div class="title-sm">AFM5: A. B. Pereira</div>
+                                        <div class="subtitle">“Mechanical Properties of Biaxial Non-Crimp Fabrics for
+                                            2-Wheeled Electrical Vehicle Chassis”
+                                        </div>
+                                        <div class="track"><span class="badge AFM"><span class="dot"></span>AFM</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="time">11:00–11:30</div>
@@ -264,40 +556,70 @@
                                 <div class="track"><span class="badge kind"><span class="dot"></span>Break</span></div>
                             </div>
 
-                            <div class="time">11:30–12:10</div>
-                            <div class="item emph KEYNOTE">
-                                <div class="title-sm">Keynote 2: Prof. Stingelin</div>
-                                <div class="track"><span class="badge kind"><span class="dot"></span>Keynote</span></div>
-                            </div>
+                            <!-- Grouped Late-Morning Session (Chair: Prof. Elefterios Lidorikis) -->
+                            <div class="time">11:30–13:25</div>
+                            <div class="item emph AFM" role="group"
+                                 aria-label="Session 2 — Chair: Prof. Elefterios Lidorikis">
+                                <div class="title-sm">Session 2</div>
+                                <div class="subtitle">Chair: Prof. Elefterios Lidorikis</div>
 
-                            <div class="time">12:10–12:25</div>
-                            <div class="item">
-                                <div class="title-sm">AFM6: E. Kyriakides</div>
-                                <div class="track"><span class="badge AFM"><span class="dot"></span>AFM</span></div>
-                            </div>
+                                <div class="session">
+                                    <div class="subtime">11:30–12:10</div>
+                                    <div class="subitem">
+                                        <div class="title-sm">Keynote 2: Prof. Stingelin</div>
+                                        <div class="subtitle">“Green flexible electronics — challenges and
+                                            opportunities: A materials scientist’s point of view”
+                                        </div>
+                                        <div class="track"><span class="badge kind"><span
+                                                class="dot"></span>Keynote</span></div>
+                                    </div>
 
-                            <div class="time">12:25–12:40</div>
-                            <div class="item">
-                                <div class="title-sm">AFM7: Ch. E. Lekka</div>
-                                <div class="track"><span class="badge AFM"><span class="dot"></span>AFM</span></div>
-                            </div>
+                                    <div class="subtime">12:10–12:25</div>
+                                    <div class="subitem">
+                                        <div class="title-sm">AFM6: E. Kyriakides</div>
+                                        <div class="subtitle">“Progress in the fabrication of sustainable thin-film
+                                            solar cells using pulsed laser deposition”
+                                        </div>
+                                        <div class="track"><span class="badge AFM"><span class="dot"></span>AFM</span>
+                                        </div>
+                                    </div>
 
-                            <div class="time">12:40–12:55</div>
-                            <div class="item">
-                                <div class="title-sm">AFM8: M. Menelaou</div>
-                                <div class="track"><span class="badge AFM"><span class="dot"></span>AFM</span></div>
-                            </div>
+                                    <div class="subtime">12:25–12:40</div>
+                                    <div class="subitem">
+                                        <div class="title-sm">AFM7: Ch. E. Lekka</div>
+                                        <div class="subtitle">“Biocompatible β-Ti-based alloys for bone implants”</div>
+                                        <div class="track"><span class="badge AFM"><span class="dot"></span>AFM</span>
+                                        </div>
+                                    </div>
 
-                            <div class="time">12:55–13:10</div>
-                            <div class="item">
-                                <div class="title-sm">AFM9: S. Bousios</div>
-                                <div class="track"><span class="badge AFM"><span class="dot"></span>AFM</span></div>
-                            </div>
+                                    <div class="subtime">12:40–12:55</div>
+                                    <div class="subitem">
+                                        <div class="title-sm">AFM8: M. Menelaou</div>
+                                        <div class="subtitle">“Synthesis and Characterization of Bimetallic Oxides”
+                                        </div>
+                                        <div class="track"><span class="badge AFM"><span class="dot"></span>AFM</span>
+                                        </div>
+                                    </div>
 
-                            <div class="time">13:10–13:25</div>
-                            <div class="item">
-                                <div class="title-sm">AFM10: C. Marangos</div>
-                                <div class="track"><span class="badge AFM"><span class="dot"></span>AFM</span></div>
+                                    <div class="subtime">12:55–13:10</div>
+                                    <div class="subitem">
+                                        <div class="title-sm">AFM9: S. Bousios</div>
+                                        <div class="subtitle">“Sustainable Adhesive Systems Based on Reinforced Aleppo
+                                            Pine Resin: A Thermal and Mechanical Study”
+                                        </div>
+                                        <div class="track"><span class="badge AFM"><span class="dot"></span>AFM</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="subtime">13:10–13:25</div>
+                                    <div class="subitem">
+                                        <div class="title-sm">AFM10: C. Marangos</div>
+                                        <div class="subtitle">"Scattering properties of water wave metamaterials: from submerged structures to shallow water theory"
+                                        </div>
+                                        <div class="track"><span class="badge AFM"><span class="dot"></span>AFM</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="time">13:30–14:45</div>
@@ -306,29 +628,57 @@
                                 <div class="track"><span class="badge kind"><span class="dot"></span>Break</span></div>
                             </div>
 
-                            <div class="time">14:45–15:15</div>
-                            <div class="item emph INVITED">
-                                <div class="title-sm">Invited 1: Prof. Papavasiliou</div>
-                                <div class="track"><span class="badge kind"><span class="dot"></span>Invited</span></div>
+                            <!-- Grouped Afternoon Session (Chair: Prof. Melita Menelaou) -->
+                            <div class="time">14:45–16:00</div>
+                            <div class="item emph ME" role="group"
+                                 aria-label="Session 3 — Chair: Prof. Melita Menelaou">
+                                <div class="title-sm">Session 3</div>
+                                <div class="subtitle">Chair: Prof. Melita Menelaou</div>
+
+                                <div class="session">
+                                    <div class="subtime">14:45–15:15</div>
+                                    <div class="subitem">
+                                        <div class="title-sm">Invited 1: Prof. Papavasiliou</div>
+                                        <div class="subtitle">“Energy storage in supercapacitors based on biomass
+                                            residues”
+                                        </div>
+                                        <div class="track"><span class="badge kind"><span
+                                                class="dot"></span>Invited</span></div>
+                                    </div>
+
+                                    <div class="subtime">15:15–15:30</div>
+                                    <div class="subitem">
+                                        <div class="title-sm">ME1: S. Hadjipanteli</div>
+                                        <div class="subtitle">“Thermoelectric PEDOT:PSS films with Bi0.4Sb1.6Te3 made
+                                            via drop-casting”
+                                        </div>
+                                        <div class="track"><span class="badge ME"><span class="dot"></span>ME</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="subtime">15:30–15:45</div>
+                                    <div class="subitem">
+                                        <div class="title-sm">ME2: E. Glynos</div>
+                                        <div class="subtitle">“Self-Healing Solid Polymer Electrolytes Based on
+                                            Nanostructured Polymer Particles for Solid-Sate Batteries”
+                                        </div>
+                                        <div class="track"><span class="badge ME"><span class="dot"></span>ME</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="subtime">15:45–16:00</div>
+                                    <div class="subitem">
+                                        <div class="title-sm">ME3: M. Lusha</div>
+                                        <div class="subtitle">“Structure-Property Relationship of Biocompatible and
+                                            Biodegradable Diblock Copolymer Electrolytes Based on Polyhistidine and
+                                            Polyethylene Oxide”
+                                        </div>
+                                        <div class="track"><span class="badge ME"><span class="dot"></span>ME</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
-                            <div class="time">15:15–15:30</div>
-                            <div class="item">
-                                <div class="title-sm">ME1: S. Hadjipanteli</div>
-                                <div class="track"><span class="badge ME"><span class="dot"></span>ME</span></div>
-                            </div>
-
-                            <div class="time">15:30–15:45</div>
-                            <div class="item">
-                                <div class="title-sm">ME2: E. Glynos</div>
-                                <div class="track"><span class="badge ME"><span class="dot"></span>ME</span></div>
-                            </div>
-
-                            <div class="time">15:45–16:00</div>
-                            <div class="item">
-                                <div class="title-sm">ME3: M. Lusha</div>
-                                <div class="track"><span class="badge ME"><span class="dot"></span>ME</span></div>
-                            </div>
                             <div class="time">16:00–16:30</div>
                             <div class="item emph BREAK">
                                 <div class="title-sm">Coffee break 2</div>
@@ -338,12 +688,15 @@
                             <div class="time">16:30–16:50</div>
                             <div class="item emph SPONSOR">
                                 <div class="title-sm">Sponsor talk 1: Coherent Corp.</div>
-                                <div class="track"><span class="badge kind"><span class="dot"></span>Sponsor</span></div>
+                                <div class="track"><span class="badge kind"><span class="dot"></span>Sponsor</span>
+                                </div>
                             </div>
 
                             <div class="time">16:55–18:30</div>
                             <div class="item emph POSTER">
-                                <div class="title-sm">Poster Session A: Advanced Functional Materials, Materials for Energy, Photonics & Optoelectronics</div>
+                                <div class="title-sm">Poster Session A: Advanced Functional Materials, Materials for
+                                    Energy, Photonics & Optoelectronics
+                                </div>
                                 <div class="track"><span class="badge kind"><span class="dot"></span>Poster</span></div>
                             </div>
 
@@ -362,55 +715,95 @@
                             <div class="time">08:00–09:00</div>
                             <div class="item emph REG">
                                 <div class="title-sm">Registration</div>
-                                <div class="track"><span class="badge kind"><span class="dot"></span>Registration</span></div>
+                                <div class="track"><span class="badge kind"><span class="dot"></span>Registration</span>
+                                </div>
                             </div>
 
-                            <div class="time">09:00–09:40</div>
-                            <div class="item emph KEYNOTE">
-                                <div class="title-sm">Keynote 2: Prof. Heiss</div>
-                                <div class="track"><span class="badge kind"><span class="dot"></span>Keynote</span></div>
-                            </div>
+                            <!-- Grouped Morning Session (Chair: Prof. Natalie Stingelin) -->
+                            <div class="time">09:00–11:45</div>
+                            <div class="item emph ME" role="group"
+                                 aria-label="Session 1 — Chair: Prof. Natalie Stingelin">
+                                <div class="title-sm">Session 1</div>
+                                <div class="subtitle">Chair: Prof. Natalie Stingelin</div>
 
-                            <div class="time">09:40–10:10</div>
-                            <div class="item emph INVITED">
-                                <div class="title-sm">Invited 3: Dr Stergiopoulos</div>
-                                <div class="track"><span class="badge kind"><span class="dot"></span>Invited</span></div>
-                            </div>
+                                <div class="session">
+                                    <div class="subtime">09:00–09:40</div>
+                                    <div class="subitem">
+                                        <div class="title-sm">Keynote 2: Prof. Heiss</div>
+                                        <div class="subtitle">“Defect tolerance in halide perovskites”</div>
+                                        <div class="track"><span class="badge kind"><span
+                                                class="dot"></span>Keynote</span></div>
+                                    </div>
 
-                            <div class="time">10:15–10:30</div>
-                            <div class="item">
-                                <div class="title-sm">ME4: A. Kostopoulou</div>
-                                <div class="track"><span class="badge ME"><span class="dot"></span>ME</span></div>
-                            </div>
+                                    <div class="subtime">09:40–10:10</div>
+                                    <div class="subitem">
+                                        <div class="title-sm">Invited 3: Dr Stergiopoulos</div>
+                                        <div class="subtitle">“Photoluminescent semiconductors for PV and optoelectronic
+                                            devices”
+                                        </div>
+                                        <div class="track"><span class="badge kind"><span
+                                                class="dot"></span>Invited</span></div>
+                                    </div>
 
-                            <div class="time">10:30–10:45</div>
-                            <div class="item">
-                                <div class="title-sm">ME5: F. Galatopoulos</div>
-                                <div class="track"><span class="badge ME"><span class="dot"></span>ME</span></div>
-                            </div>
+                                    <div class="subtime">10:15–10:30</div>
+                                    <div class="subitem">
+                                        <div class="title-sm">ME4: A. Kostopoulou</div>
+                                        <div class="subtitle">“Enhancing the Performance of Flexible Printed Perovskite
+                                            Solar Cells via Modified PEDOT:PSS Hole Transport Layers”
+                                        </div>
+                                        <div class="track"><span class="badge ME"><span class="dot"></span>ME</span>
+                                        </div>
+                                    </div>
 
-                            <div class="time">10:45–11:00</div>
-                            <div class="item">
-                                <div class="title-sm">ME5: A. Ioakeimidis</div>
-                                <div class="track"><span class="badge ME"><span class="dot"></span>ME</span></div>
-                            </div>
+                                    <div class="subtime">10:30–10:45</div>
+                                    <div class="subitem">
+                                        <div class="title-sm">ME5: F. Galatopoulos</div>
+                                        <div class="subtitle">"Impact of Doped Fullerene Buffer Layers On The Performance of Perovskite Photovoltaics"
+                                        </div>
+                                        <div class="track"><span class="badge ME"><span class="dot"></span>ME</span>
+                                        </div>
+                                    </div>
 
-                            <div class="time">11:00–11:15</div>
-                            <div class="item">
-                                <div class="title-sm">ME7: S. C. Hayes</div>
-                                <div class="track"><span class="badge ME"><span class="dot"></span>ME</span></div>
-                            </div>
+                                    <div class="subtime">10:45–11:00</div>
+                                    <div class="subitem">
+                                        <div class="title-sm">ME5: A. Ioakeimidis</div>
+                                        <div class="subtitle">“Improving Lifetime of Methylammonium-Free Perovskite
+                                            Solar Cells Through Additive Engineering”
+                                        </div>
+                                        <div class="track"><span class="badge ME"><span class="dot"></span>ME</span>
+                                        </div>
+                                    </div>
 
-                            <div class="time">11:15–11:30</div>
-                            <div class="item">
-                                <div class="title-sm">ME8: C. Andreou</div>
-                                <div class="track"><span class="badge ME"><span class="dot"></span>ME</span></div>
-                            </div>
+                                    <div class="subtime">11:00–11:15</div>
+                                    <div class="subitem">
+                                        <div class="title-sm">ME7: S. C. Hayes</div>
+                                        <div class="subtitle">“Temperature dependent structural evolution of an organic
+                                            donor-acceptor polymeric semiconductor”
+                                        </div>
+                                        <div class="track"><span class="badge ME"><span class="dot"></span>ME</span>
+                                        </div>
+                                    </div>
 
-                            <div class="time">11:30–11:45</div>
-                            <div class="item">
-                                <div class="title-sm">ME9: L. Socaciou-Siebert</div>
-                                <div class="track"><span class="badge ME"><span class="dot"></span>ME</span></div>
+                                    <div class="subtime">11:15–11:30</div>
+                                    <div class="subitem">
+                                        <div class="title-sm">ME8: C. Andreou</div>
+                                        <div class="subtitle">“Nanostructured Plasmonic Sensors for Chemical Monitoring
+                                            via Surface Enhanced Raman Spectroscopy”
+                                        </div>
+                                        <div class="track"><span class="badge ME"><span class="dot"></span>ME</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="subtime">11:30–11:45</div>
+                                    <div class="subitem">
+                                        <div class="title-sm">ME9: L. Socaciu-Siebert</div>
+                                        <div class="subtitle">“Routine operando studies with Near Ambient Pressure (NAP)
+                                            - XPS”
+                                        </div>
+                                        <div class="track"><span class="badge ME"><span class="dot"></span>ME</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="time">11:45–12:15</div>
@@ -419,46 +812,85 @@
                                 <div class="track"><span class="badge kind"><span class="dot"></span>Break</span></div>
                             </div>
 
-                            <div class="time">12:15–12:45</div>
-                            <div class="item emph INVITED">
-                                <div class="title-sm">Invited 3: Prof. Fyta</div>
-                                <div class="track"><span class="badge kind"><span class="dot"></span>Invited</span></div>
-                            </div>
+                            <!-- Grouped Midday Session (Chair: Prof. Pavlos S. Stephanou) -->
+                            <div class="time">12:15–14:30</div>
+                            <div class="item emph AFM" role="group"
+                                 aria-label="Session 2 — Chair: Prof. Pavlos S. Stephanou">
+                                <div class="title-sm">Session 2</div>
+                                <div class="subtitle">Chair: Prof. Pavlos S. Stephanou</div>
 
-                            <div class="time">12:45–13:15</div>
-                            <div class="item emph INVITED">
-                                <div class="title-sm">Invited 4: Dr Zacharias</div>
-                                <div class="track"><span class="badge kind"><span class="dot"></span>Invited</span></div>
-                            </div>
+                                <div class="session">
+                                    <div class="subtime">12:15–12:45</div>
+                                    <div class="subitem">
+                                        <div class="title-sm">Invited 3: Prof. Fyta</div>
+                                        <div class="subtitle">“Tailoring solid state nanopores via computational
+                                            modelling”
+                                        </div>
+                                        <div class="track"><span class="badge kind"><span
+                                                class="dot"></span>Invited</span></div>
+                                    </div>
 
-                            <div class="time">13:15–13:30</div>
-                            <div class="item">
-                                <div class="title-sm">AFM11: E. Christofi</div>
-                                <div class="track"><span class="badge AFM"><span class="dot"></span>AFM</span></div>
-                            </div>
+                                    <div class="subtime">12:45–13:15</div>
+                                    <div class="subitem">
+                                        <div class="title-sm">Invited 4: Dr Zacharias</div>
+                                        <div class="subtitle">“Data-Driven Electronic Structure Calculations at Finite
+                                            Temperature”
+                                        </div>
+                                        <div class="track"><span class="badge kind"><span
+                                                class="dot"></span>Invited</span></div>
+                                    </div>
 
-                            <div class="time">13:30–13:45</div>
-                            <div class="item">
-                                <div class="title-sm">AFM12: N. Patsalidis</div>
-                                <div class="track"><span class="badge AFM"><span class="dot"></span>AFM</span></div>
-                            </div>
+                                    <div class="subtime">13:15–13:30</div>
+                                    <div class="subitem">
+                                        <div class="title-sm">AFM11: E. Christofi</div>
+                                        <div class="subtitle">“Deep Neural Networks for Predicting the Mechanical
+                                            Properties of Glassy Polymer Nanocomposites”
+                                        </div>
+                                        <div class="track"><span class="badge AFM"><span class="dot"></span>AFM</span>
+                                        </div>
+                                    </div>
 
-                            <div class="time">13:45–14:00</div>
-                            <div class="item">
-                                <div class="title-sm">AFM13: P. Ilia</div>
-                                <div class="track"><span class="badge AFM"><span class="dot"></span>AFM</span></div>
-                            </div>
+                                    <div class="subtime">13:30–13:45</div>
+                                    <div class="subitem">
+                                        <div class="title-sm">AFM12: N. Patsalidis</div>
+                                        <div class="subtitle">“Active Learning of Atomic Size Gas/Solid Potential Energy
+                                            Surfaces via Physics Aware Models”
+                                        </div>
+                                        <div class="track"><span class="badge AFM"><span class="dot"></span>AFM</span>
+                                        </div>
+                                    </div>
 
-                            <div class="time">14:00–14:15</div>
-                            <div class="item">
-                                <div class="title-sm">AFM14: P. A. Polykarpou</div>
-                                <div class="track"><span class="badge AFM"><span class="dot"></span>AFM</span></div>
-                            </div>
+                                    <div class="subtime">13:45–14:00</div>
+                                    <div class="subitem">
+                                        <div class="title-sm">AFM13: P. Ilia</div>
+                                        <div class="subtitle">“Computational inverse homogenization approach for
+                                            predicting the mechanical properties of randomly distributed ellipsoidal
+                                            inclusions of composite materials”
+                                        </div>
+                                        <div class="track"><span class="badge AFM"><span class="dot"></span>AFM</span>
+                                        </div>
+                                    </div>
 
-                            <div class="time">14:15–14:30</div>
-                            <div class="item">
-                                <div class="title-sm">AFM15: A. K. Ioannou</div>
-                                <div class="track"><span class="badge AFM"><span class="dot"></span>AFM</span></div>
+                                    <div class="subtime">14:00–14:15</div>
+                                    <div class="subitem">
+                                        <div class="title-sm">AFM14: P. A. Polykarpou</div>
+                                        <div class="subtitle">“Modelling of the shear-induced migration of rigid and
+                                            deformable particles in Newtonian and non-Newtonian fluids”
+                                        </div>
+                                        <div class="track"><span class="badge AFM"><span class="dot"></span>AFM</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="subtime">14:15–14:30</div>
+                                    <div class="subitem">
+                                        <div class="title-sm">AFM15: A. K. Ioannou</div>
+                                        <div class="subtitle">“Modeling the Rheological Behavior of Cement Pastes over a
+                                            spectrum of temperature and water-to-cement ratio”
+                                        </div>
+                                        <div class="track"><span class="badge AFM"><span class="dot"></span>AFM</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="time">14:30–15:30</div>
@@ -467,40 +899,77 @@
                                 <div class="track"><span class="badge kind"><span class="dot"></span>Break</span></div>
                             </div>
 
-                            <div class="time">15:30–15:45</div>
-                            <div class="item">
-                                <div class="title-sm">M/N1: D. Ritsopoulos</div>
-                                <div class="track"><span class="badge MN"><span class="dot"></span>M/N</span></div>
+                            <!-- Grouped Late-Afternoon Session (Chair: Prof. Loukas Koutsokeras) -->
+                            <div class="time">15:30–17:00</div>
+                            <div class="item emph MN" role="group"
+                                 aria-label="Session 3 — Chair: Prof. Loukas Koutsokeras">
+                                <div class="title-sm">Session 3</div>
+                                <div class="subtitle">Chair: Prof. Loukas Koutsokeras</div>
+
+                                <div class="session">
+                                    <div class="subtime">15:30–15:45</div>
+                                    <div class="subitem">
+                                        <div class="title-sm">M/N1: D. Ritsopoulos</div>
+                                        <div class="subtitle">“Computational Study of Mixed Dislocations in GaN:
+                                            Energetic Stability and Environmental Effects”
+                                        </div>
+                                        <div class="track"><span class="badge MN"><span class="dot"></span>M/N</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="subtime">15:45–16:00</div>
+                                    <div class="subitem">
+                                        <div class="title-sm">M/N2: D. Tsoukalas</div>
+                                        <div class="subtitle">“Tunable Optoelectronic Neuromorphic Behaviour in MoS₂
+                                            Memristors with Pt Nanoparticle Decoration for Energy-Efficient Spiking
+                                            Neural Networks”
+                                        </div>
+                                        <div class="track"><span class="badge MN"><span class="dot"></span>M/N</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="subtime">16:00–16:15</div>
+                                    <div class="subitem">
+                                        <div class="title-sm">M/N3: S. Sarigiannidis</div>
+                                        <div class="subtitle">“Optical profilometry for 3D mapping of Photonic
+                                            Integrated Circuits”
+                                        </div>
+                                        <div class="track"><span class="badge MN"><span class="dot"></span>M/N</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="subtime">16:15–16:30</div>
+                                    <div class="subitem">
+                                        <div class="title-sm">M/N4: D. Kanatsiopoulos</div>
+                                        <div class="subtitle">“The Impact of Hole Transport Layers on Charge Transport
+                                            and Efficiency in Organic Electronic Devices”
+                                        </div>
+                                        <div class="track"><span class="badge MN"><span class="dot"></span>M/N</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="subtime">16:30–16:45</div>
+                                    <div class="subitem">
+                                        <div class="title-sm">ME10: P. S. Ioannou</div>
+                                        <div class="subtitle">“Silicide thermoelectric modules based on high purity Si
+                                            and recycled Si-kerf”
+                                        </div>
+                                        <div class="track"><span class="badge ME"><span class="dot"></span>ME</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="subtime">16:45–17:00</div>
+                                    <div class="subitem">
+                                        <div class="title-sm">SM1: S. B. Atata</div>
+                                        <div class="subtitle">“A Comparative Study on the Effect of Nanoparticle
+                                            Geometry on the Nematic Phases of a Bimesogenic Liquid Crystal”
+                                        </div>
+                                        <div class="track"><span class="badge SM"><span class="dot"></span>SM</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
-                            <div class="time">15:45–16:00</div>
-                            <div class="item">
-                                <div class="title-sm">M/N2: D. Tsoukalas</div>
-                                <div class="track"><span class="badge MN"><span class="dot"></span>M/N</span></div>
-                            </div>
-
-                            <div class="time">16:00–16:15</div>
-                            <div class="item">
-                                <div class="title-sm">M/N3: S. Sarigiannidis</div>
-                                <div class="track"><span class="badge MN"><span class="dot"></span>M/N</span></div>
-                            </div>
-
-                            <div class="time">16:15–16:30</div>
-                            <div class="item">
-                                <div class="title-sm">M/N4: D. Kanatsiopoulos</div>
-                                <div class="track"><span class="badge MN"><span class="dot"></span>M/N</span></div>
-                            </div>
-
-                            <div class="time">16:30–16:45</div>
-                            <div class="item">
-                                <div class="title-sm">ME10: P. S. Ioannou</div>
-                                <div class="track"><span class="badge ME"><span class="dot"></span>M/N</span></div>
-                            </div>
-                            <div class="time">16:45-17:00</div>
-                            <div class="item">
-                                <div class="title-sm">SM1: S. B. Atata</div>
-                                <div class="track"><span class="badge SM"><span class="dot"></span>SM</span></div>
-                            </div>
                             <div class="time">17:00–17:30</div>
                             <div class="item emph BREAK">
                                 <div class="title-sm">Coffee break 4</div>
@@ -510,12 +979,15 @@
                             <div class="time">17:30–17:50</div>
                             <div class="item emph SPONSOR">
                                 <div class="title-sm">Sponsor talk 2: Lumoscribe Ltd</div>
-                                <div class="track"><span class="badge kind"><span class="dot"></span>Sponsor</span></div>
+                                <div class="track"><span class="badge kind"><span class="dot"></span>Sponsor</span>
+                                </div>
                             </div>
 
                             <div class="time">17:55–19:20</div>
                             <div class="item emph POSTER">
-                                <div class="title-sm">Poster Session B: Low Dimensional Materials, Magnetism and Strongly Correlated Systems, Micro/Nano Electronics, Soft Condensed Matter</div>
+                                <div class="title-sm">Poster Session B: Low Dimensional Materials, Magnetism and
+                                    Strongly Correlated Systems, Micro/Nano Electronics, Soft Condensed Matter
+                                </div>
                                 <div class="track"><span class="badge kind"><span class="dot"></span>Poster</span></div>
                             </div>
 
@@ -534,48 +1006,88 @@
                             <div class="time">08:00–09:30</div>
                             <div class="item emph REG">
                                 <div class="title-sm">Registration</div>
-                                <div class="track"><span class="badge kind"><span class="dot"></span>Registration</span></div>
+                                <div class="track"><span class="badge kind"><span class="dot"></span>Registration</span>
+                                </div>
                             </div>
 
-                            <div class="time">09:30–10:00</div>
-                            <div class="item emph INVITED">
-                                <div class="title-sm">Invited 6: Prof. Kassavetis</div>
-                                <div class="track"><span class="badge kind"><span class="dot"></span>Invited</span></div>
-                            </div>
+                            <!-- Grouped Morning Photonics Session (Chair: Dr Marios Zacharias) -->
+                            <div class="time">09:30–11:30</div>
+                            <div class="item emph PHOT" role="group"
+                                 aria-label="Session 1 — Chair: Dr Marios Zacharias">
+                                <div class="title-sm">Session 1</div>
+                                <div class="subtitle">Chair: Dr Marios Zacharias</div>
 
-                            <div class="time">10:00–10:15</div>
-                            <div class="item">
-                                <div class="title-sm">PHOT1: N. Stathopoulos</div>
-                                <div class="track"><span class="badge PHOT"><span class="dot"></span>PHOT</span></div>
-                            </div>
+                                <div class="session">
+                                    <div class="subtime">09:30–10:00</div>
+                                    <div class="subitem">
+                                        <div class="title-sm">Invited 6: Prof. Kassavetis</div>
+                                        <div class="subtitle">“Alternative Plasmonic Nanomaterials and Fabrication
+                                            Processes”
+                                        </div>
+                                        <div class="track"><span class="badge kind"><span
+                                                class="dot"></span>Invited</span></div>
+                                    </div>
 
-                            <div class="time">10:15–10:30</div>
-                            <div class="item">
-                                <div class="title-sm">PHOT2: E. Lidorikis</div>
-                                <div class="track"><span class="badge PHOT"><span class="dot"></span>PHOT</span></div>
-                            </div>
+                                    <div class="subtime">10:00–10:15</div>
+                                    <div class="subitem">
+                                        <div class="title-sm">PHOT1: N. Stathopoulos</div>
+                                        <div class="subtitle">“Spectral reflectivity calculations of Fiber Bragg
+                                            Gratings (FBGs) with intensity-dependent refractive index”
+                                        </div>
+                                        <div class="track"><span class="badge PHOT"><span class="dot"></span>PHOT</span>
+                                        </div>
+                                    </div>
 
-                            <div class="time">10:30–10:45</div>
-                            <div class="item">
-                                <div class="title-sm">PHOT3: S. Doukas</div>
-                                <div class="track"><span class="badge PHOT"><span class="dot"></span>PHOT</span></div>
-                            </div>
+                                    <div class="subtime">10:15–10:30</div>
+                                    <div class="subitem">
+                                        <div class="title-sm">PHOT2: E. Lidorikis</div>
+                                        <div class="subtitle">“Slow-light enhanced integrated plasmo-photonic index
+                                            sensor”
+                                        </div>
+                                        <div class="track"><span class="badge PHOT"><span class="dot"></span>PHOT</span>
+                                        </div>
+                                    </div>
 
-                            <div class="time">10:45–11:00</div>
-                            <div class="item">
-                                <div class="title-sm">PHOT4: L. Koutsokeras</div>
-                                <div class="track"><span class="badge PHOT"><span class="dot"></span>PHOT</span></div>
-                            </div>
+                                    <div class="subtime">10:30–10:45</div>
+                                    <div class="subitem">
+                                        <div class="title-sm">PHOT3: S. Doukas</div>
+                                        <div class="subtitle">“Hot-Carrier-Enhanced THz Third-Harmonic Generation in
+                                            Graphene Embedded in a Topological–Plasmonic Cavity”
+                                        </div>
+                                        <div class="track"><span class="badge PHOT"><span class="dot"></span>PHOT</span>
+                                        </div>
+                                    </div>
 
-                            <div class="time">11:00–11:15</div>
-                            <div class="item">
-                                <div class="title-sm">PHOT5: K. Georgiou</div>
-                                <div class="track"><span class="badge PHOT"><span class="dot"></span>PHOT</span></div>
-                            </div>
-                            <div class="time">11:15–11:30</div>
-                            <div class="item">
-                                <div class="title-sm">PHOT6: M. Trapoulouzi</div>
-                                <div class="track"><span class="badge PHOT"><span class="dot"></span>PHOT</span></div>
+                                    <div class="subtime">10:45–11:00</div>
+                                    <div class="subitem">
+                                        <div class="title-sm">PHOT4: L. Koutsokeras</div>
+                                        <div class="subtitle">“Structural and optical properties of zinc oxysulfide
+                                            semiconductor thin films”
+                                        </div>
+                                        <div class="track"><span class="badge PHOT"><span class="dot"></span>PHOT</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="subtime">11:00–11:15</div>
+                                    <div class="subitem">
+                                        <div class="title-sm">PHOT5: K. Georgiou</div>
+                                        <div class="subtitle">“Molecular Polaritonics: Controlling photochemistry with
+                                            quantum optics”
+                                        </div>
+                                        <div class="track"><span class="badge PHOT"><span class="dot"></span>PHOT</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="subtime">11:15–11:30</div>
+                                    <div class="subitem">
+                                        <div class="title-sm">PHOT6: M. Trapoulouzi</div>
+                                        <div class="subtitle">“Surface-Enhanced Raman Scattering Coupled with
+                                            Chemometrics for Advanced Food Safety Monitoring”
+                                        </div>
+                                        <div class="track"><span class="badge PHOT"><span class="dot"></span>PHOT</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="time">11:30–12:00</div>
@@ -584,81 +1096,139 @@
                                 <div class="track"><span class="badge kind"><span class="dot"></span>Break</span></div>
                             </div>
 
-                            <div class="time">12:00–12:30</div>
-                            <div class="item emph INVITED">
-                                <div class="title-sm">Invited 5: Prof. Stephanou</div>
-                                <div class="track"><span class="badge kind"><span class="dot"></span>Invited</span></div>
+                            <!-- Grouped Midday Soft Matter Session (Chair: Prof. Vangelis Harmandaris) -->
+                            <div class="time">12:00–13:30</div>
+                            <div class="item emph SM" role="group"
+                                 aria-label="Session 2 — Chair: Prof. Vangelis Harmandaris">
+                                <div class="title-sm">Session 2</div>
+                                <div class="subtitle">Chair: Prof. Vangelis Harmandaris</div>
+
+                                <div class="session">
+                                    <div class="subtime">12:00–12:30</div>
+                                    <div class="subitem">
+                                        <div class="title-sm">Invited 5: Prof. Stephanou</div>
+                                        <div class="subtitle">“Use of non-equilibrium thermodynamics to derive a
+                                            constitutive rheological model with a variable entanglement density”
+                                        </div>
+                                        <div class="track"><span class="badge kind"><span
+                                                class="dot"></span>Invited</span></div>
+                                    </div>
+
+                                    <div class="subtime">12:30–12:45</div>
+                                    <div class="subitem">
+                                        <div class="title-sm">SM2: K. Chrissopoulou</div>
+                                        <div class="subtitle">“Altering Polymer Crystallinity Utilizing Bottlebrush
+                                            Copolymers”
+                                        </div>
+                                        <div class="track"><span class="badge SM"><span class="dot"></span>SM</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="subtime">12:45–13:00</div>
+                                    <div class="subitem">
+                                        <div class="title-sm">SM3: P. Katsamba</div>
+                                        <div class="subtitle">“Diffusive Filaments in Soft Matter Systems: Modelling
+                                            Active Colloids and Degrading Microplastic Fibres”
+                                        </div>
+                                        <div class="track"><span class="badge SM"><span class="dot"></span>SM</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="subtime">13:00–13:15</div>
+                                    <div class="subitem">
+                                        <div class="title-sm">SM4: G. Sakellion</div>
+                                        <div class="subtitle">“Hierarchical Multi-scale Simulations of Polymers via
+                                            Atomistic and Chemical-specific Bead Spring Models”
+                                        </div>
+                                        <div class="track"><span class="badge SM"><span class="dot"></span>SM</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="subtime">13:15–13:30</div>
+                                    <div class="subitem">
+                                        <div class="title-sm">SM5: A. Tomilo</div>
+                                        <div class="subtitle">“Atomic Cluster Expansion Methods For Machine Learning
+                                            Potentials of Organic Systems”
+                                        </div>
+                                        <div class="track"><span class="badge SM"><span class="dot"></span>SM</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
-                            <div class="time">12:30–12:45</div>
-                            <div class="item">
-                                <div class="title-sm">SM2: K. Chrissopoulou</div>
-                                <div class="track"><span class="badge SM"><span class="dot"></span>SM</span></div>
-                            </div>
-
-                            <div class="time">12:45–13:00</div>
-                            <div class="item">
-                                <div class="title-sm">SM3: P. Katsamba</div>
-                                <div class="track"><span class="badge SM"><span class="dot"></span>SM</span></div>
-                            </div>
-
-                            <div class="time">13:00–13:15</div>
-                            <div class="item">
-                                <div class="title-sm">SM4: G. Sakellion</div>
-                                <div class="track"><span class="badge SM"><span class="dot"></span>SM</span></div>
-                            </div>
-
-                            <div class="time">13:15–13:30</div>
-                            <div class="item">
-                                <div class="title-sm">SM5: A. Tomilo</div>
-                                <div class="track"><span class="badge SM"><span class="dot"></span>SM</span></div>
-                            </div>
-
-                            <div class="time">13:30-14:30</div>
+                            <div class="time">13:30–14:30</div>
                             <div class="item emph BREAK">
                                 <div class="title-sm">Lunch break 3</div>
                                 <div class="track"><span class="badge kind"><span class="dot"></span>Break</span></div>
                             </div>
 
-                            <div class="time">14:30–15:00</div>
-                            <div class="item emph INVITED">
-                                <div class="title-sm">Invited 7: Prof. Trypiniotis</div>
-                                <div class="track"><span class="badge kind"><span class="dot"></span>Invited</span></div>
+                            <!-- Grouped Afternoon Session (replaces Wed 17/9 · 14:30–15:30 individual items) -->
+                            <div class="time">14:30–15:30</div>
+                            <div class="item emph MAG" role="group"
+                                 aria-label="Session 3 — Chair: Prof. Grigorios Itskos">
+                                <div class="title-sm">Session 3</div>
+                                <div class="subtitle">Chair: Prof. Grigorios Itskos</div>
+
+                                <div class="session">
+                                    <!-- Invited 7 -->
+                                    <div class="subtime">14:30–15:00</div>
+                                    <div class="subitem">
+                                        <div class="title-sm">Invited 7: Prof. Trypiniotis</div>
+                                        <div class="subtitle">“Towards purely organic spintronic functionality”</div>
+                                        <div class="track"><span class="badge kind"><span
+                                                class="dot"></span>Invited</span></div>
+                                    </div>
+
+                                    <!-- MAG1 -->
+                                    <div class="subtime">15:00–15:15</div>
+                                    <div class="subitem">
+                                        <div class="title-sm">MAG1: A. Barnasas</div>
+                                        <div class="subtitle">“Finite-Size and Proximity Effects in Fe Based Amorphous
+                                            Multilayers Investigated by Polarized Neutron Reflectivity Measurements”
+                                        </div>
+                                        <div class="track"><span class="badge MAG"><span class="dot"></span>MAG</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- LDM1 -->
+                                    <div class="subtime">15:15–15:30</div>
+                                    <div class="subitem">
+                                        <div class="title-sm">LDM1: E. Koukaras</div>
+                                        <div class="subtitle">“Superlubricity of two-dimensional heterostructures:
+                                            Insights into Design and Challenges”
+                                        </div>
+                                        <div class="track"><span class="badge LDM"><span class="dot"></span>LDM</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
-                            <div class="time">15:00–15:15</div>
-                            <div class="item">
-                                <div class="title-sm">MAG1: A. Barnasas</div>
-                                <div class="track"><span class="badge MAG"><span class="dot"></span>MAG</span></div>
-                            </div>
-
-                            <div class="time">15:15–15:30</div>
-                            <div class="item">
-                                <div class="title-sm">LDM1: E. Koukaras</div>
-                                <div class="track"><span class="badge LDM"><span class="dot"></span>LDM</span></div>
-                            </div>
 
                             <div class="time">15:30–15:50</div>
                             <div class="item emph SPONSOR">
                                 <div class="title-sm">Sponsor talk 3: Rinnoco Ltd</div>
-                                <div class="track"><span class="badge kind"><span class="dot"></span>Sponsor</span></div>
+                                <div class="track"><span class="badge kind"><span class="dot"></span>Sponsor</span>
+                                </div>
                             </div>
 
                             <div class="time">15:50–16:05</div>
                             <div class="item emph CEREMONY">
                                 <div class="title-sm">Awards</div>
-                                <div class="track"><span class="badge kind"><span class="dot"></span>Ceremony</span></div>
+                                <div class="track"><span class="badge kind"><span class="dot"></span>Ceremony</span>
+                                </div>
                             </div>
 
                             <div class="time">16:05–16:15</div>
                             <div class="item emph CEREMONY">
                                 <div class="title-sm">Closing ceremony</div>
-                                <div class="track"><span class="badge kind"><span class="dot"></span>Ceremony</span></div>
+                                <div class="track"><span class="badge kind"><span class="dot"></span>Ceremony</span>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <p class="note">                        <!-- Special types -->
+
+                    <p class="note">
                         <span class="chip PLENARY"><span class="dot"></span>Plenary</span>
                         <span class="chip KEYNOTE"><span class="dot"></span>Keynote</span>
                         <span class="chip INVITED"><span class="dot"></span>Invited</span>
@@ -671,22 +1241,21 @@
                 </div>
 
                 <script>
-                    (function(){
+                    (function () {
                         const root = document.currentScript.parentElement;
                         const tabs = root.querySelectorAll('.tab');
                         const days = root.querySelectorAll('.day');
-                        tabs.forEach(tab=>{
-                            tab.addEventListener('click', ()=>{
-                                tabs.forEach(t=>t.setAttribute('aria-selected','false'));
-                                tab.setAttribute('aria-selected','true');
+                        tabs.forEach(tab => {
+                            tab.addEventListener('click', () => {
+                                tabs.forEach(t => t.setAttribute('aria-selected', 'false'));
+                                tab.setAttribute('aria-selected', 'true');
                                 const key = tab.dataset.day;
-                                days.forEach(d=>d.classList.toggle('active', d.id===key));
+                                days.forEach(d => d.classList.toggle('active', d.id === key));
                             });
                         });
                     })();
                 </script>
             </section>
-            <!-- Posters -->
 
             <!-- Posters -->
             <section id="posters">
@@ -723,43 +1292,62 @@
                     </div>
 
                     <!-- Session A -->
-                    <div id="posters-a" class="day active" role="tabpanel" aria-labelledby="posters-tab-a" data-posters-panel>
+                    <div id="posters-a" class="day active" role="tabpanel" aria-labelledby="posters-tab-a"
+                         data-posters-panel>
                         <h3>Poster Session A · Mon 15 September 2025 · 16:55–18:30</h3>
                         <div class="grid">
                             <div class="time">A.P01</div>
                             <div class="item emph POSTER">
-                                <div class="title-sm">Agar-based breast tissue tumour model phantom for FUS breast applications</div>
+                                <div class="title-sm">Agar-based breast tissue tumour model phantom for FUS breast
+                                    applications
+                                </div>
                                 <div class="subtitle">Antria Filippou — Cyprus University of Technology</div>
                             </div>
 
                             <div class="time">A.P02</div>
                             <div class="item emph POSTER">
-                                <div class="title-sm">Aptamer-functionalized nanoparticles for small molecule detection using SERS</div>
+                                <div class="title-sm">Aptamer-functionalized nanoparticles for small molecule detection
+                                    using SERS
+                                </div>
                                 <div class="subtitle">Kyriaki Karagianni — University of Cyprus</div>
                             </div>
 
                             <div class="time">A.P03</div>
                             <div class="item emph POSTER">
-                                <div class="title-sm">Optical sensing of picric acid based on 2D metal-organic framework nanoleaf embedded with carbon quantum dots</div>
-                                <div class="subtitle">Heba M. Ahmed — Advanced Technology and New Materials Research Institute</div>
+                                <div class="title-sm">Optical sensing of picric acid based on 2D metal-organic framework
+                                    nanoleaf embedded with carbon quantum dots
+                                </div>
+                                <div class="subtitle">Heba M. Ahmed — Advanced Technology and New Materials Research
+                                    Institute
+                                </div>
                             </div>
 
                             <div class="time">A.P04</div>
                             <div class="item emph POSTER">
-                                <div class="title-sm">Optical spectroscopic study of the K2[Ru(bipy)(CN)4]∙3H2O coordination polymer under high pressure</div>
+                                <div class="title-sm">
+                                    Optical spectroscopic study of the
+                                    K<sub>2</sub>[Ru(bipy)(CN)<sub>4</sub>]&middot;3H<sub>2</sub>O
+                                    coordination polymer under high pressure
+                                </div>
                                 <div class="subtitle">Olga Karabinaki — Aristotle University of Thessaloniki</div>
                             </div>
 
                             <div class="time">A.P05</div>
                             <div class="item emph POSTER">
-                                <div class="title-sm">A novel, water stable Zn-MOF as a photoluminescent sensor and sorbent for selected pharmaceutical compounds</div>
+                                <div class="title-sm">A novel, water stable Zn-MOF as a photoluminescent sensor and
+                                    sorbent for selected pharmaceutical compounds
+                                </div>
                                 <div class="subtitle">Kalliopi C. Papasozomenou — University of Cyprus</div>
                             </div>
 
                             <div class="time">A.P06</div>
                             <div class="item emph POSTER">
-                                <div class="title-sm">Spatially Controlled Hydrothermal Synthesis of CuO Nanoparticles on Silicon Wafer Using Optical Lithography</div>
-                                <div class="subtitle">Margarita Chatzichristidi — National and Kapodistrian University of Athens</div>
+                                <div class="title-sm">Spatially Controlled Hydrothermal Synthesis of CuO Nanoparticles
+                                    on Silicon Wafer Using Optical Lithography
+                                </div>
+                                <div class="subtitle">Margarita Chatzichristidi — National and Kapodistrian University
+                                    of Athens
+                                </div>
                             </div>
 
                             <div class="time">A.P07</div>
@@ -770,43 +1358,59 @@
 
                             <div class="time">A.P08</div>
                             <div class="item emph POSTER">
-                                <div class="title-sm">Optimization of Properties in Recycled Polyurethane-Based Insulating Mortars through Particle Size Classification</div>
+                                <div class="title-sm">Optimization of Properties in Recycled Polyurethane-Based
+                                    Insulating Mortars through Particle Size Classification
+                                </div>
                                 <div class="subtitle">Maria Xenofontos — University of Cyprus</div>
                             </div>
 
                             <div class="time">A.P09</div>
                             <div class="item emph POSTER">
-                                <div class="title-sm">Experimental investigation of the tensile and shear properties of steel foam hollow sphere assemblies</div>
+                                <div class="title-sm">Experimental investigation of the tensile and shear properties of
+                                    steel foam hollow sphere assemblies
+                                </div>
                                 <div class="subtitle">Kalpakoglou Thomas — Cyprus University of Technology</div>
                             </div>
 
                             <div class="time">A.P10</div>
                             <div class="item emph POSTER">
-                                <div class="title-sm">Microstructural features, physicο-mechanical properties, and wear behavior of dental translucent polychromic multilayer zirconia of hybrid composition prepared by milling technology</div>
+                                <div class="title-sm">Microstructural features, physico-mechanical properties, and wear
+                                    behavior of dental translucent polychromic multilayer zirconia of hybrid composition
+                                    prepared by milling technology
+                                </div>
                                 <div class="subtitle">Marios Constantinou — University of Nicosia</div>
                             </div>
 
                             <div class="time">A.P11</div>
                             <div class="item emph POSTER">
-                                <div class="title-sm">Self-Healing Solid Polymer Electrolytes Based on Nanostructured Polymer Particles for Solid-Sate Batteries</div>
+                                <div class="title-sm">Self-Healing Solid Polymer Electrolytes Based on Nanostructured
+                                    Polymer Particles for Solid-State Batteries
+                                </div>
                                 <div class="subtitle">Eirini Dramountani — University of Crete</div>
                             </div>
 
                             <div class="time">A.P12</div>
                             <div class="item emph POSTER">
-                                <div class="title-sm">Dissecting the role of molecular structure and film microstructure in photophysical processes in ternary blends of organic polymeric semiconductors with non-fullerene acceptors</div>
+                                <div class="title-sm">Dissecting the role of molecular structure and film microstructure
+                                    in photophysical processes in ternary blends of organic polymeric semiconductors
+                                    with non-fullerene acceptors
+                                </div>
                                 <div class="subtitle">Maria Karatzia — University of Cyprus</div>
                             </div>
 
                             <div class="time">A.P13</div>
                             <div class="item emph POSTER">
-                                <div class="title-sm">Optical probes for in-situ monitoring of charge recombination in organic photovoltaic devices</div>
+                                <div class="title-sm">Optical probes for in-situ monitoring of charge recombination in
+                                    organic photovoltaic devices
+                                </div>
                                 <div class="subtitle">Eirini Limnatiti — Cyprus University of Technology</div>
                             </div>
 
                             <div class="time">A.P14</div>
                             <div class="item emph POSTER">
-                                <div class="title-sm">Molecular Interactions and Structural Stabilization in Hybrid Interfaces for Optoelectronic Applications: A Multiscale Approach</div>
+                                <div class="title-sm">Molecular Interactions and Structural Stabilization in Hybrid
+                                    Interfaces for Optoelectronic Applications: A Multiscale Approach
+                                </div>
                                 <div class="subtitle">Rakesh K. Sahoo — The Cyprus Institute</div>
                             </div>
 
@@ -818,10 +1422,11 @@
 
                             <div class="time">A.P16</div>
                             <div class="item emph POSTER">
-                                <div class="title-sm">Room-Temperature Nanosecond Amplified Spontaneous Emission from Tin Iodide Perovskite Nanostructures</div>
+                                <div class="title-sm">Room-Temperature Nanosecond Amplified Spontaneous Emission from
+                                    Tin Iodide Perovskite Nanostructures
+                                </div>
                                 <div class="subtitle">Paris Papagiorgis — University of Cyprus</div>
                             </div>
-
                         </div>
                     </div>
 
@@ -831,13 +1436,17 @@
                         <div class="grid">
                             <div class="time">B.01</div>
                             <div class="item emph POSTER">
-                                <div class="title-sm">Optimizing the Optoelectronic Properties in InAs Colloidal Quantum Dot Thin Films via Post-Deposition Processing</div>
+                                <div class="title-sm">Optimizing the Optoelectronic Properties in InAs Colloidal Quantum
+                                    Dot Thin Films via Post-Deposition Processing
+                                </div>
                                 <div class="subtitle">Panagiotis Rodosthenous — University of Cyprus</div>
                             </div>
 
                             <div class="time">B.02</div>
                             <div class="item emph POSTER">
-                                <div class="title-sm">Optical Properties of Thin Films of Tin Iodide Perovskite Nanostructures</div>
+                                <div class="title-sm">Optical Properties of Thin Films of Tin Iodide Perovskite
+                                    Nanostructures
+                                </div>
                                 <div class="subtitle">Andreas Manoli — University of Cyprus</div>
                             </div>
 
@@ -849,88 +1458,119 @@
 
                             <div class="time">B.04</div>
                             <div class="item emph POSTER">
-                                <div class="title-sm">Graphene Gas (O2)-Bubbling Electrode as a Dynamic Surface for a Sustainable Electro Wastewater Treatment Plant</div>
+                                <div class="title-sm">Graphene Gas (O<sub>2</sub>)-Bubbling Electrode as a Dynamic
+                                    Surface for a Sustainable Electro Wastewater Treatment Plant
+                                </div>
                                 <div class="subtitle">Marios Constantinou — University of Nicosia</div>
                             </div>
 
                             <div class="time">B.05</div>
                             <div class="item emph POSTER">
-                                <div class="title-sm">Exploring Superlubricity in Graphene–Based Heterostructures through Tailored Interlayer Force Fields</div>
+                                <div class="title-sm">Exploring Superlubricity in Graphene–Based Heterostructures
+                                    through Tailored Interlayer Force Fields
+                                </div>
                                 <div class="subtitle">George Fanourgakis — Aristotle University of Thessaloniki</div>
                             </div>
 
                             <div class="time">B.06</div>
                             <div class="item emph POSTER">
-                                <div class="title-sm">Self-Energy and Interaction Effects in Graphene from a Quantum Field Theory Approach</div>
+                                <div class="title-sm">Self-Energy and Interaction Effects in Graphene from a Quantum
+                                    Field Theory Approach
+                                </div>
                                 <div class="subtitle">Marios Costa — Cyprus University of Technology</div>
                             </div>
 
                             <div class="time">B.07</div>
                             <div class="item emph POSTER">
-                                <div class="title-sm">Modeling the response of a one-dimensional magnetic cylinder under an external magnetic field of any form</div>
-                                <div class="subtitle">Petros Moraitis — National and Kapodistrian University of Athens</div>
+                                <div class="title-sm">Modeling the response of a one-dimensional magnetic cylinder under
+                                    an external magnetic field of any form
+                                </div>
+                                <div class="subtitle">Petros Moraitis — National and Kapodistrian University of Athens
+                                </div>
                             </div>
 
                             <div class="time">B.08</div>
                             <div class="item emph POSTER">
-                                <div class="title-sm">Designing High-Spin Organic Materials: The Rylenediimide-Fused Blatter Radicals</div>
+                                <div class="title-sm">Designing High-Spin Organic Materials: The Rylenediimide-Fused
+                                    Blatter Radicals
+                                </div>
                                 <div class="subtitle">Georgia Zissimou — University of Cyprus</div>
                             </div>
 
                             <div class="time">B.09</div>
                             <div class="item emph POSTER">
-                                <div class="title-sm">Unravelling the Spin Dimensionality of a Metal-free Organic Radical Crystal</div>
+                                <div class="title-sm">Unravelling the Spin Dimensionality of a Metal-free Organic
+                                    Radical Crystal
+                                </div>
                                 <div class="subtitle">Constantinos Nicolaides — University of Cyprus</div>
                             </div>
 
                             <div class="time">B.10</div>
                             <div class="item emph POSTER">
-                                <div class="title-sm">Mathematical modeling and experimental realization on poly-crystalline and single-crystalline high-Tc superconductors YBa2Cu3O7−δ and Bi2−xPbxSr2Ca2Cu3O10+y via AC magnetic susceptibility: Investigation of the second superconducting transition observed in poly-crystalline samples</div>
-                                <div class="subtitle">Petros Moraitis — National and Kapodistrian University of Athens</div>
+                                <div class="title-sm">Mathematical modeling and experimental realization on
+                                    poly-crystalline and single-crystalline high-Tc superconductors YBa2Cu3O7−δ and
+                                    Bi2−xPbxSr2Ca2Cu3O10+y via AC magnetic susceptibility: Investigation of the second
+                                    superconducting transition observed in poly-crystalline samples
+                                </div>
+                                <div class="subtitle">Petros Moraitis — National and Kapodistrian University of Athens
+                                </div>
                             </div>
 
                             <div class="time">B.11</div>
                             <div class="item emph POSTER">
-                                <div class="title-sm">Temperature-dependent Resonance Raman spectroscopy of polymeric semiconductors</div>
+                                <div class="title-sm">Temperature-dependent Resonance Raman spectroscopy of polymeric
+                                    semiconductors
+                                </div>
                                 <div class="subtitle">Anna Kyrri — University of Cyprus</div>
                             </div>
 
                             <div class="time">B.12</div>
                             <div class="item emph POSTER">
-                                <div class="title-sm">Effect of CQDs on the nematic order and rotational viscosity of 8CB</div>
-                                <div class="subtitle">Alfredos Schinas — National and Kapodistrian University of Athens</div>
+                                <div class="title-sm">Effect of CQDs on the nematic order and rotational viscosity of
+                                    8CB
+                                </div>
+                                <div class="subtitle">Alfredos Schinas — National and Kapodistrian University of
+                                    Athens
+                                </div>
                             </div>
 
                             <div class="time">B.13</div>
                             <div class="item emph POSTER">
-                                <div class="title-sm">High pressure Raman study of crystalline 9,9΄-spirobifluorene up to 8 Gpa</div>
+                                <div class="title-sm">High pressure Raman study of crystalline 9,9΄-spirobifluorene up
+                                    to 8 GPa
+                                </div>
                                 <div class="subtitle">Maria-Tereza Siavou — Aristotle University of Thessaloniki</div>
                             </div>
 
                             <div class="time">B.14</div>
                             <div class="item emph POSTER">
-                                <div class="title-sm">Rapid bimetallic nanoparticle synthesis using a microfluidic platform</div>
+                                <div class="title-sm">Rapid bimetallic nanoparticle synthesis using a microfluidic
+                                    platform
+                                </div>
                                 <div class="subtitle">Marios Stavrou — University of Cyprus</div>
                             </div>
 
                             <div class="time">B.15</div>
                             <div class="item emph POSTER">
-                                <div class="title-sm">Deep Learning Models for Biomolecular Systems: The AlphaFold Algorithm</div>
+                                <div class="title-sm">Deep Learning Models for Biomolecular Systems: The AlphaFold
+                                    Algorithm
+                                </div>
                                 <div class="subtitle">Despoina Paraskevi Manoledaki — The Cyprus Institute</div>
                             </div>
 
                             <div class="time">B.16</div>
                             <div class="item emph POSTER">
-                                <div class="title-sm">Partially Reduced Graphene Oxide Biosensor for Protein and Oligonucleotide Detection</div>
+                                <div class="title-sm">Partially Reduced Graphene Oxide Biosensor for Protein and
+                                    Oligonucleotide Detection
+                                </div>
                                 <div class="subtitle">Stavros Chatzandroulis — NCSR ‘‘Demokritos’’</div>
                             </div>
-
                         </div>
                     </div>
                 </div>
 
                 <script>
-                    (function(){
+                    (function () {
                         const postersSection = document.querySelector('#posters');
                         if (!postersSection) return;
 
@@ -938,10 +1578,10 @@
                         const panels = postersSection.querySelectorAll('[data-posters-panel]');
 
                         // Tab switching scoped to #posters
-                        tabs.forEach(tab=>{
-                            tab.addEventListener('click', ()=>{
-                                tabs.forEach(t=>t.setAttribute('aria-selected','false'));
-                                tab.setAttribute('aria-selected','true');
+                        tabs.forEach(tab => {
+                            tab.addEventListener('click', () => {
+                                tabs.forEach(t => t.setAttribute('aria-selected', 'false'));
+                                tab.setAttribute('aria-selected', 'true');
                                 const targetId = tab.getAttribute('aria-controls');
                                 panels.forEach(panel => panel.classList.toggle('active', panel.id === targetId));
                             });
@@ -950,7 +1590,7 @@
                         // Print only posters section
                         const printBtn = postersSection.querySelector('#print-posters');
                         if (printBtn) {
-                            printBtn.addEventListener('click', ()=>{
+                            printBtn.addEventListener('click', () => {
                                 const postersContent = postersSection.innerHTML;
                                 const win = window.open('', '_blank', 'width=900,height=650');
                                 win.document.write(`
